@@ -157,62 +157,202 @@ Customer B frequented the restaurant the most followed by customer A. Customer C
 
 ***
 
-### Question 3
+### Question 3: What was the first item from the menu purchased by each customer? 
 
 
 #### Approach:
 
+1. First create a common table expression called `t1` where we **INNER JOIN** the
+   `sales` and `menu` table in order to obtain the `product_name`.
+	 
+2. Within the common table expression, use the window function **DENSE_RANK()** 
+   that ranks the `order_date` in ascending order by `customer_id`. **DENSE_RANK()** was chosen 
+   because timestamps were not provided with the `order_date`.
 
+
+3. Create a seperate query that selects the `customer_id`, `order_date`, and `product_name`
+   from the CTE, then filters where the `order_date_rank` equals 1. This represents the first menu item
+   purchased by the customer.
+
+
+```sql
+
+WITH t1 AS (
+
+SELECT s.customer_id,
+       m.product_name,
+       s.order_date,
+       DENSE_RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date) AS order_date_rank
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+
+)
+
+
+SELECT t1.customer_id,
+       t1.order_date,
+       t1.product_name
+FROM t1
+WHERE t1.order_date_rank = 1;
+
+```
 
 #### Solution:
 
+![Screenshot 2023-08-31 at 5 03 00 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8d64b50b-b3cd-4a79-a25e-f520e559ceb3)
 
 
 #### Interpretation:
 
 
-
+1. Customer A's first order was either curry or sushi. 
+2. Customer B's first order was curry.
+3. Customer C's first order was ramen.
 
 
 ***
 
-### Question 4
+### Question 4: What is the most purchased item on the menu and how many times was it purchased by all customers?
+
 
 
 #### Approach:
 
+1. To find the most purchased item on the menu, first create an inline subquery called `most_puchased` that 
+   selects the `product_id`, `product_name`, and **COUNT(s.product_id)**. 
+   We then **GROUP BY** the `product_id` and `product_name`, **ORDER BY COUNT(s.product_id)**
+   in descending order, and then select the first selection using **LIMIT()**.
+
+2.  We only need the product name so select it from the `most_purchased` subquery. 
+    The outer query and the subquery is then put within the common table expression `pn`.
+
+
+3. To see how many times the most purchased item (ramen) was ordered by each customer, 
+   first write a query that **INNER JOIN**s the `sales` and `menu` table to get the 
+   `customer_id`, `product_name`, and the **COUNT(m.product_name)**. In the same query,
+   **GROUP BY** the `customer_id` followed by the `product_name` then filter where the `product_name`
+   equals ramen. We do this by utilizing the **HAVING()** clause and creating a
+   nested subquery that selects the `product_name` from the CTE `pn`.
+
+
+```sql
+
+
+WITH pn AS (
+
+SELECT product_name
+FROM   (SELECT s.product_id,
+               m.product_name,
+               COUNT(s.product_id) AS order_count
+        FROM sales AS s
+        JOIN menu AS m
+        ON m.product_id = s.product_id
+        GROUP BY 1, 2
+        ORDER BY 3 DESC
+        LIMIT 1) AS most_purchased
+)
+
+
+SELECT s.customer_id,
+       m.product_name,
+       COUNT(m.product_name) AS order_total
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+GROUP BY 1, 2
+HAVING product_name = (SELECT pn.product_name FROM pn)
+ORDER BY 3 DESC;
+
+
+```
 
 
 #### Solution:
 
+![Screenshot 2023-08-31 at 5 14 07 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a0689704-d10c-437a-ba05-3ff2d9af3c46)
+
+
+#### Interpretation:
+
+Customer A and C ordered ramen 3 times, while customer B ordered it twice. This sums up to 8 orders total.
+
+
+***
+
+### Question 5: Which item was the most popular for each customer?
+
+
+#### Approach:
+
+1. To find the most popular item ordered by each customer, we first need to find how
+   many times each customer ordered each menu item. So, create a common table expression
+   where the first table is named `t1`. In the same table, **INNER JOIN** the `sales` and `menu` table
+   then select the `customer_id`, `product_name`, and the **COUNT(m.product_name)**.
+   Next, **GROUP BY** the `customer_id` followed by the `product_name`.
+
+2. Create a second table in the CTE called `t2` where we select everything from `t1`. Next, use the **DENSE_RANK()** 
+   window function to rank the `order_total` in descending order by `customer_id` so that the largest 
+   order count is considered first.
+
+
+3. In the query outside of the CTE, select the `customer_id`, `product_name`,
+   and `order_total` from `t2`. Afterwards, filter where `order_total_rank`
+   equals 1.  This will give us the menu item that was the most popular choice
+   for each customer.
+
+
+```sql
+
+
+WITH t1 AS (
+
+SELECT s.customer_id,
+       m.product_name,
+       COUNT(m.product_name) AS order_total
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+GROUP BY 1, 2
+	
+),
+
+t2 AS (
+	
+SELECT t1.*,
+       DENSE_RANK() OVER (PARTITION BY t1.customer_id ORDER BY t1.order_total DESC) AS order_total_rank
+FROM t1
+
+)
+
+
+SELECT t2.customer_id,
+       t2.product_name,
+       t2.order_total
+FROM t2
+WHERE t2.order_total_rank = 1;
+
+
+```
+
+#### Solution:
+
+![Screenshot 2023-08-31 at 5 21 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f8da1f3e-ae3c-43d3-8890-08370fe23492)
 
 
 #### Interpretation:
 
 
+Ramen was the most popular item for customer A and C. For customer B, 
+all three of the menu items were considered the 
+most popular since it was tied at 2 each.
 
 
 ***
-### Question 5
+
+### Question 6: Which item was purchased first by the customer after they became a member?
 
 
-#### Approach:
-
-
-
-#### Solution:
-
-
-
-#### Interpretation:
-
-
-
-
-
-
-***
-### Question 6
 
 
 #### Approach:
