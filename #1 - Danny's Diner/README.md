@@ -357,33 +357,142 @@ most popular since it was tied at 2 each.
 
 #### Approach:
 
+1. First, create a common table expression aliased as `purchase_after_member`.
+   We need the `customer_id`, `order_date`, `product_id`, and the `join_date`
+   so **INNER JOIN** the `sales`, `menu`, and `members` tables. Since we need to know what was the first
+   item ordered after a customer became a member, only consider records where the order date comes after the join date.
+   To do this, filter the results where the `order_date` is greater than the `join_date`. Next, utilize the **DENSE_RANK()**
+   window function that ranks the `order_date` in ascending order by `customer_id`. Important to note that from
+   the members table provided above, customer C never joined the loyalty program.
+
+2. In the query outside of the CTE, select the `customer_id`,
+   `order_date`, and `product_name`. Perform an initial **INNER JOIN**
+   with the `sales` and `menu` tables. Afterwards, **INNER JOIN** the results from
+   `purchase_after_member` joining on the `customer_id`,
+   `product_id`, and `order_date`. Lastly, filter where the `order_date_rank`
+   from `purchase_after_member` equals 1.
+   This will isolate the results to the first menu item purchased by
+   customer A or B after they became a member.
+
+
+```sql
+
+
+WITH purchase_after_member AS (
+	
+SELECT s.customer_id,
+       s.product_id,
+       s.order_date,
+       members.join_date,
+       DENSE_RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date) AS order_date_rank
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+JOIN members
+ON members.customer_id = s.customer_id
+WHERE s.order_date > members.join_date
+
+)
+
+
+SELECT s.customer_id,
+       s.order_date,
+       m.product_name
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+JOIN purchase_after_member as p
+ON s.customer_id = p.customer_id AND s.product_id = p.product_id AND s.order_date = p.order_date
+WHERE p.order_date_rank = 1;
+
+```
+
 
 
 #### Solution:
+
+![Screenshot 2023-08-31 at 6 44 25 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/289297a5-3983-4d87-9e22-53db44a8c3ad)
 
 
 
 #### Interpretation:
 
-
+Customer A's first order after becoming a member was ramen while customer B's was sushi.
 
 
 
 ***
-### Question 7
+
+### Question 7: Which item was purchased just before the customer became a member?
 
 
 #### Approach:
 
+1. First, create a common table expression aliased as
+   `purchase_before_member`. We need the `customer_id`, `product_id`,
+   `order_date`, and the `join_date` so **INNER JOIN** the `sales`, `menu`, 
+   and `members` tables. Since we need to know what was the first item ordered
+   right before a customer became a member, only consider records where the order date
+   comes before the join date. To do this, filter the results where the `order_date`
+   is less than the `join_date`. Next, utilize the **DENSE_RANK()** window function that ranks the
+   `order_date` in descending order by `customer_id`. 
 
 
+2. In the query outside of the CTE, select the `customer_id`,
+   `order_date`, and `product_name`. Perform an initial **INNER JOIN**
+   with the `sales` and `menu` tables. Afterwards, **INNER JOIN** the results from
+   `purchase_before_member` joining on the `customer_id`, `product_id`,
+   and `order_date`. Lastly, filter where the `order_date_rank` from 
+   `purchase_before_member` equals 1. This will isolate the results to
+   the first menu item purchased by customer A or B right before they
+   became a member.
+
+
+
+```sql
+
+
+
+WITH purchase_before_member AS (
+
+SELECT s.customer_id,
+       s.product_id,
+       s.order_date,
+       members.join_date,
+       DENSE_RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS order_date_rank
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+LEFT JOIN members
+ON members.customer_id = s.customer_id
+WHERE s.order_date < members.join_date
+
+)
+
+
+SELECT s.customer_id,
+       s.order_date,
+       m.product_name
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+JOIN purchase_before_member AS p
+ON s.customer_id = p.customer_id AND s.product_id = p.product_id  AND s.order_date = p.order_date
+WHERE p.order_date_rank = 1;
+
+
+```
 #### Solution:
 
+![Screenshot 2023-08-31 at 6 51 52 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a0ac5237-0977-4a28-a781-922d5468b649)
 
 
 #### Interpretation:
 
 
+Since a timestamp was not provided in `order_date`, 
+Customer A's first order right before becoming a member was either
+sushi or curry. For customer B, it was sushi.
 
 
 
