@@ -38,14 +38,14 @@ Looking at the ERD, three tables will be used in the case study; sales, menu, an
 
 ### Table 1: sales
 
-The sales table consists of each 'customer_id' purchases along with the 'order_date'
+The sales table consists of each `customer_id` purchases along with the `order_date`
 of the purchase and the 'product_id' of the menu item that was ordered.
 
 ![Screenshot 2023-08-31 at 4 11 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7f468eb1-6800-49dc-bfb7-bac348483b38)
 
 ### Table 2: members
 
-The members table provides the 'customer_id' and the 'join_date' of when
+The members table provides the `customer_id` and the `join_date` of when
 they joined the Danny's Dinner loyalty program. 
 
 ![Screenshot 2023-08-31 at 4 15 09 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/20965ee2-302d-45b3-af9e-bbdadb01a550)
@@ -53,7 +53,7 @@ they joined the Danny's Dinner loyalty program.
 
 ### Table 3: menu
 
-The menu table provides the 'product_name' and 'price' associated with the 'product_id'.
+The menu table provides the `product_name` and `price` associated with the `product_id`.
 
 ![Screenshot 2023-08-31 at 4 17 35 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5fc05c8b-df50-4a69-8e5c-6e24ee216d44)
 
@@ -82,14 +82,14 @@ The menu table provides the 'product_name' and 'price' associated with the 'prod
 
 ### Question 1: What is the total amount each customer spent at the restaurant?
 
-#### Approach
+#### Approach:
 
-1. Use INNER JOIN to combine the `sales` and `menu` table in order to get the price of the menu
+1. Use **INNER JOIN** to combine the `sales` and `menu` table in order to get the price of the menu
    item that each customer ordered.
 
-2. To help get the total amount, select **SUM(m.price)** then GROUP BY the `customer_id`.
+2. To help get the total amount, select **SUM(m.price)** then **GROUP BY** the `customer_id`.
    
-3. ORDER BY the total amount in descending order for better readability.
+3. **ORDER BY** the total amount in descending order for better readability.
 
 
 ```sql
@@ -105,48 +105,70 @@ ORDER BY 2 DESC;
 ```
 
 
-#### Solution
+#### Solution:
 
 ![Screenshot 2023-08-31 at 4 30 23 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/42ed8273-b5ba-40d5-843f-9a8a21a8e5e4)
 
 
 
-#### Interpretation
+#### Interpretation:
 
 Customer A spent the most at Danny's Diner while Customer C spent the least.
 
 
 ***
 
-### Question 2
+### Question 2: How many days has each customer visited the restaurant?
 
 
-#### Approach
+#### Approach:
+
+1. Evaluate the `sales` table containing the `customer_id` and the `order_date` columns.
+   
+2. Because the customer can order more than one item in a day, order dates can appear more than once.
+   We need to remove the duplicates to have unique order dates per customer. To do this,
+   use **DISTINCT()**.
+   
+3. To get the number of days each customer visited the restaurant, use **COUNT(DISTINCT(order_date))** 
+   then **GROUP BY** the `customer_id`.
+   
+4. **ORDER BY** the number of days visited for better readability.
+
+
+```sql
+
+SELECT customer_id,
+       COUNT(DISTINCT(order_date)) AS days_visited
+FROM sales
+GROUP BY customer_id
+ORDER BY 2 DESC;
+```
+
+#### Solution:
 
 
 
-#### Solution
+![Screenshot 2023-08-31 at 4 46 17 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5baa8150-f4ed-4a80-a48c-9b9d70b59e4c)
 
 
+#### Interpretation:
 
-#### Interpretation
-
-
+Customer B frequented the restaurant the most followed by customer A. Customer C only visited the restaurant twice.
 
 ***
 
 ### Question 3
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
 
 
 
@@ -157,15 +179,15 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ### Question 4
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
 
 
 
@@ -173,15 +195,16 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ***
 ### Question 5
 
-#### Approach
+
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
 
 
 
@@ -192,15 +215,17 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ### Question 6
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
+
+
 
 
 
@@ -208,15 +233,16 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ### Question 7
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
+
 
 
 
@@ -226,15 +252,16 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ### Question 8
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
+
 
 
 
@@ -242,15 +269,17 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ### Question 9
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
+
+
 
 
 
@@ -258,15 +287,17 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 ### Question 10
 
 
-#### Approach
+#### Approach:
 
 
 
-#### Solution
+#### Solution:
 
 
 
-#### Interpretation
+#### Interpretation:
+
+
 
 
 
@@ -274,3 +305,34 @@ Customer A spent the most at Danny's Diner while Customer C spent the least.
 
 ***
 # Bonus Questions
+
+
+### Bonus 1: Recreate the following table that includes the `customer_id`, `order_date`, `product_name`, menu item `price`, and a new column called `member`  where the entries are either Y or N.
+
+#### Approach:
+
+
+
+#### Solution:
+
+
+
+
+
+
+
+
+### Bonus 2: Recreate the following table that includes everything from the previous table and the ranking of member only purchases. Non-members should receive null ranking values.
+
+
+#### Approach:
+
+
+
+#### Solution:
+
+
+
+#### Interpretation:
+
+
