@@ -504,23 +504,58 @@ sushi or curry. For customer B, it was sushi.
 
 ***
 
-### Question 8
+### Question 8: What is the total items and amount spent for each member before they became a member?
 
 
 #### Approach:
 
+1.  For this question, we need the `customer_id`, the `price` of each menu item,
+    the `order_date`, and the `join_date` of when the members joined the loyalty program.
+	
+2.  Perform an **INNER JOIN** on the `sales`, `menu`, and `members` tables.
+
+3.  Since we are only interested in the customer records before they became a member,
+    filter the results where the `order_date` is less than the `join_date`.
+
+4.  To get the total items and amount spent for each customer, 
+    select the `customer_id`, **COUNT(s.customer_id)**, and **SUM(m.price)**.
+    Next, **GROUP BY** the `customer_id` which should aggregate the results 
+    into the appropriate solution.
+	
+5. **ORDER BY** the `customer_id` for better readability.
+
+
+```sql
+
+
+SELECT s.customer_id,
+       COUNT(s.customer_id) AS total_purchased_items,
+       SUM(m.price) AS total_spent
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+JOIN members
+ON members.customer_id = s.customer_id
+WHERE s.order_date < members.join_date
+GROUP BY 1
+ORDER BY 1;
+
+```
 
 
 #### Solution:
 
+![Screenshot 2023-08-31 at 7 21 18 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5690b5aa-a417-4ace-aab5-062cc5003f40)
 
 
 #### Interpretation:
 
-
+1. Customer A purchased 3 items for 25 dollars before becoming a member.
+2. Customer B spent more by buying 3 menu items for 40 dollars.
 
 
 ***
+
 ### Question 9
 
 
