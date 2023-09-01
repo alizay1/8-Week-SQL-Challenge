@@ -556,39 +556,155 @@ ORDER BY 1;
 
 ***
 
-### Question 9
+### Question 9: If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
 
 #### Approach:
 
+1.  Create a common table expression called `reward_points_table`.
+    Within the CTE, perform an **INNER JOIN** between the `sales` and `menu` tables.
 
+2.  We need to create a new column that provides the points according to the menu item. To do this,
+    utilize a **CASE WHEN** statement. When the `product_name` equals sushi, 20 points will be multiplied
+    with the price of the menu item. For everything else, only 10 points will be multiplied with the price.
+    The new column is then called `reward_points`.
+
+3.  To find out how many points each customer has, in the outer query
+    use **SUM(r.reward_points)** and select the `customer_id`. **GROUP BY** the `customer_id`
+    to get the intended results. 
+	
+4. **ORDER BY** the **SUM(r.reward_points)**.
+
+
+
+```sql
+
+WITH reward_points_table AS (
+	
+SELECT s.customer_id,
+       CASE WHEN m.product_name = 'sushi' THEN (m.price * (2 * 10))
+       ELSE (m.price * 10) END AS reward_points
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+)
+
+
+SELECT r.customer_id,
+       SUM(r.reward_points) AS total_reward_points
+FROM reward_points_table AS r
+GROUP BY 1
+ORDER BY 2 DESC;
+
+
+
+```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 10 55 17 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/65920797-988d-44c4-a9cf-d85460021667)
 
 
 #### Interpretation:
 
-
+Customer B had the most reward points with 940 points followed by customer A with 860 points.
+Customer C only had 360 points.
 
 
 
 ***
-### Question 10
+
+### Question 10: In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
 
 #### Approach:
+
+
+1.  Create a common table expression called `rewards_table`.
+    Within the CTE, perform an **INNER JOIN** between the `sales`, `menu`, and `members` tables since
+    columns are needed from each.
+
+
+2.  We need to create a new column that lists the points according to the 
+    conditions provided in the question. To do this, utilize a **CASE WHEN** statement. 
+
+
+3.  All menu items receive the 2x multiplier in the first week after a customer joins
+    the program (including the join date). What we need to do is make sure that the
+    records under this condition have an `order_date` that comes after the `join_date`
+    and before *7 days after* the `join_date`. In other words, in the first **WHEN** statement,
+    `order_date` has to be greater than or equal to the `join_date` and less than or equal
+    to the `join_date` offsetted by 7 days using **members.join_date + INTERVAL '7 days'**.
+
+
+4. For items outside of the first week that only receive 10 points, do the opposite 
+   in the next **WHEN** statement. Only include records where the 
+   `order_date` is less then the `join_date` or greater than the `join_date` offsetted by 7 days using
+   **members.join_date + INTERVAL '7 days'**. Furthermore, also account for the fact that the menu item 
+   has to be either ramen or curry.
+  
+
+5. For the rest of the records (ie. only the sushi menu item), apply the
+   2x rewards multiplier to the price.
+
+
+6. Finally, filter the results where the `order_date` is less than or equal to January 31, 2021
+   since we are only interested in the records that occurred before the end of January.
+ 
+
+7. To find out how many points each customer has, in the outer query
+   use **SUM(r.reward_points)** and select the `customer_id`. **GROUP BY** the `customer_id`
+   to get the intended results. 
+
+ 
+8. ORDER BY the `customer_id`.
+
+```sql
+
+
+WITH rewards_table AS (
+
+SELECT s.customer_id,
+       s.order_date,
+       m.product_name,
+       m.price,
+       members.join_date,
+       CASE WHEN s.order_date >= members.join_date AND s.order_date <= members.join_date + INTERVAL '7 days'
+	         THEN (m.price * (2 * 10))
+	    WHEN (s.order_date < members.join_date OR s.order_date > members.join_date + INTERVAL '7 days') AND 
+	         (m.product_name = 'ramen' OR m.product_name = 'curry')
+                 THEN (m.price * 10)
+	    ELSE (m.price * (2 * 10)) END AS reward_points
+FROM sales AS s
+JOIN menu AS m
+ON m.product_id = s.product_id
+JOIN members
+ON members.customer_id = s.customer_id
+WHERE s.order_date <= '2021-01-31'
+
+)
+
+SELECT r.customer_id,
+       SUM(r.reward_points) AS total_reward_points
+FROM rewards_table AS r
+GROUP BY 1
+ORDER BY 1
+
+
+```
 
 
 
 #### Solution:
 
 
+![Screenshot 2023-09-01 at 11 07 34 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/922f96e7-4b01-44f4-9387-dc511081e797)
+
+
 
 #### Interpretation:
 
-
-
+Customer A had 1370 points while customer B had 940 points.
 
 
 
@@ -599,30 +715,114 @@ ORDER BY 1;
 
 ### Bonus 1: Recreate the following table that includes the `customer_id`, `order_date`, `product_name`, menu item `price`, and a new column called `member`  where the entries are either Y or N.
 
+<img width="583" alt="Screenshot 2023-09-01 at 11 08 24 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/95de9a72-230a-4aa2-a3fe-3a081d4bde08">
+
+
 #### Approach:
 
 
+1. First, **INNER JOIN** the `sales` and `menu` tables then **LEFT JOIN** the `members` table. 
+   We have to use **LEFT JOIN** because no data exists for customer C in the `members`table.
+
+2. To create a new column, use a **CASE WHEN** statement where the first **WHEN** statement
+   states that any `order_date` greater than or equal to the `join_date` is considered a member.
+   Furthermore, the following **WHEN** statement indicates that any `order_date` less than 
+   the `join_date` is not considered a member. For any other cases, they are not considered members.
+
+3. Lastly, **ORDER BY** `customer_id` then `member`.
+
+
+
+```sql
+
+
+SELECT s.customer_id,
+       s.order_date,
+       m.product_name,
+       m.price,
+       CASE WHEN s.order_date >= members.join_date THEN 'Y'
+	    WHEN s.order_date < members.join_date THEN 'N'
+	    ELSE 'N' END AS member
+FROM sales AS s
+JOIN menu AS m
+ON s.product_id = m.product_id
+LEFT JOIN members
+ON members.customer_id = s.customer_id
+ORDER BY 1, 2
+
+
+
+```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 11 13 46 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9d5e3c96-0325-4117-9841-2bc8fd9d5aea)
 
 
 
-
-
-
+***
 
 ### Bonus 2: Recreate the following table that includes everything from the previous table and the ranking of member only purchases. Non-members should receive null ranking values.
 
+<img width="677" alt="Screenshot 2023-09-01 at 11 15 06 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1474c2db-14bf-49fc-9967-1a270ee8fe7a">
+
+
 
 #### Approach:
+
+1. For this question, utilize the same query from the previous problem.
+   However, this query will now be placed inside a common table expression 
+   labelled as `initial_query`.
+   
+2. In the outer query, call everything from `initial_table`. Next, 
+   add a **CASE WHEN** statement where if a customer is a member, apply the
+   **DENSE_RANK()** window function that provides ranks by `customer_id` then 
+   `member` and **ORDER**s **BY** the `order_date` in ascending order.
+   
+3. For the the non-member customers, use `NULL`.
+
+
+```sql
+
+
+
+WITH initial_query AS (
+
+SELECT s.customer_id,
+       s.order_date,
+       m.product_name,
+       m.price,
+       CASE WHEN s.order_date >= members.join_date THEN 'Y'
+            WHEN s.order_date < members.join_date THEN 'N'
+            ELSE 'N' END AS member
+FROM sales AS s
+JOIN menu AS m
+ON s.product_id = m.product_id
+LEFT JOIN members
+ON members.customer_id = s.customer_id
+ORDER BY 1, 2
+
+)
+
+
+SELECT *,
+       CASE WHEN i.member = 'Y' THEN DENSE_RANK() OVER (PARTITION BY i.customer_id, i.member ORDER BY order_date)
+	    ELSE NULL END AS ranking
+FROM initial_query AS i; 
+
+
+
+
+```
+
 
 
 
 #### Solution:
 
 
+![Screenshot 2023-09-01 at 11 20 42 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c2328b6e-c6bc-4329-8c0c-cdc02b20cd0b)
 
-#### Interpretation:
+
 
 
