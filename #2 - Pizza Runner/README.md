@@ -299,7 +299,7 @@ ALTER TABLE runner_orders_temp
 Note: `customer_orders_temp` and `runner_orders_temp` will be used for the remainder of the analysis.
 
 
-***
+
 
 ## A. Pizza Metrics
 
