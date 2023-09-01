@@ -13,8 +13,16 @@
 
 # Table of Contents
 
-
-
+1. [Introducing the Data](#introducing-the-data)
+   - [Entity Relationship Diagram](#entity-relationship-diagram)
+   - [Tables](#tables)
+   - [Business Initiatives](#business-initiatives)
+2. [Data Cleaning and Transformation](#data-cleaning-and-transformation)
+3. [Data Analysis Questions](#data-analysis-questions)
+   - [A. Pizza Metrics](#a-pizza-metrics)
+   - [B. Runner and Customer Experience](#b-runner-and-customer-experience)
+   - [C. Ingredient Optimization](#c-ingredient-optimization)
+   - [D. Pricing and Ratings](#d-pricing-and-ratings)
 
 # Introducing the Data
 
@@ -70,11 +78,15 @@
 
 ***
 
+# Data Cleaning and Transformation
 
+
+
+***
 # Data Analysis Questions
 
 
-## Data Cleaning
+
 
 
 
