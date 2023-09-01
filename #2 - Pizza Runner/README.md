@@ -2,6 +2,7 @@
 
 <img width="683" alt="Screenshot 2023-09-01 at 11 26 41 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ba41c066-fcd0-4406-bc93-e686d6eee6d8">
 
+Link to Case Study: [click me](https://8weeksqlchallenge.com/case-study-2/)
 
 # Introduction
 
@@ -288,7 +289,7 @@ ALTER TABLE runner_orders_temp
 ![Screenshot 2023-09-01 at 2 53 44 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3ad21518-f569-48ee-843a-9ec8ce00310a)
 
 
-Link to Case Study: [click me](https://8weeksqlchallenge.com/case-study-2/)
+
 
 ***
 
