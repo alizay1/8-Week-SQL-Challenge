@@ -275,25 +275,27 @@ FROM		(SELECT order_id,
 
 
 
+```sql
+
+ALTER TABLE runner_orders_temp
+ ALTER COLUMN pickup_time TYPE TIMESTAMP WITHOUT TIME ZONE USING pickup_time::TIMESTAMP WITHOUT TIME ZONE,
+ ALTER COLUMN distance_in_km TYPE NUMERIC USING distance_in_km::NUMERIC,
+ ALTER COLUMN duration_in_min TYPE INT USING duration_in_min::INTEGER;
+
+
+```
+
+![Screenshot 2023-09-01 at 2 53 44 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3ad21518-f569-48ee-843a-9ec8ce00310a)
+
+
+Link to Case Study: [click me](https://8weeksqlchallenge.com/case-study-2/)
+
 ***
 
 # Data Analysis Questions
 
 
 Note: `customer_orders_temp` and `runner_orders_temp` will be used for the remainder of the analysis.
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-
-
-
 
 
 ***
