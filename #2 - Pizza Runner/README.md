@@ -330,17 +330,415 @@ FROM customer_orders_temp;
 
 #### Interpretation:
 
+14 pizzas were ordered.
 
 ***
 
 
-### Question 2: 
+### Question 2: How many unique customer orders were made?
+
+
+
+#### Approach:
+
+1. We have to remove the duplicate orders in `order_id`.
+   Modify the query from question 1 by including **DISTINCT()** ie.
+   **COUNT(DISTINCT(order_id))**. Rename it as `unique_orders`.
+
+
+```sql
+
+SELECT COUNT(DISTINCT(order_id)) AS unique_orders
+FROM customer_orders_temp;
+
+```
+
+#### Solution:
+
+![Screenshot 2023-09-01 at 4 56 15 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5b045b47-9988-473e-a916-404e26316378)
+
+
+
+#### Interpretation:
+
+10 unique orders were made.
+
+***
+
+
+
+### Question 3: How many successful orders were delivered by each runner?
+
+
+
+#### Approach:
+
+1. In the `runner_orders_temp` table, only consider orders that 
+   were not cancelled. Afterwards, we count the amount of non-cancelled orders by
+   `runner_id`.
+  
+2. To do this, select `runner_id` and **COUNT(cancellation)** then filter the results 
+   where the `cancellation` column equals *'No Cancellation'*. Next, **GROUP BY**
+   `runner_id` to get the intended results. Rename **COUNT(cancellation)**
+   as `successful_orders`.
+
+
+```sql
+
+SELECT runner_id,
+       COUNT(cancellation) AS successful_orders
+FROM runner_orders_temp
+WHERE cancellation = 'No Cancellation'
+GROUP BY 1;
+
+```
+
+#### Solution:
+
+
+![Screenshot 2023-09-01 at 5 08 50 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8750c20f-2cbe-43db-9b20-1104ed658224)
+
+
+#### Interpretation:
+
+Runner 1 had 4 successful orders while runner 2 had 3. Runner 3 
+only had 1 successful order.
+
+***
+
+
+### Question 4: How many of each type of pizza was delivered?
+
+
+#### Approach:
+
+1. To answer this question, we need the `pizza_id`, the `pizza_name`,
+   and the `cancellation` status. First, peform an **INNER JOIN** between
+   `customer_orders_temp` and `runner_orders_temp` then another **INNER JOIN** 
+   between `customer_orders_temp` and `pizza_names`.
+   
+2. Filter the results where `cancellation` equals *'No cancellation'*.
+
+3. Use **COUNT(c.pizza_id)** then **GROUP BY** `pizza_id` followed by  `pizza_name` to get
+   the number of pizzas delivered by pizza type.
+
+
+
+```sql
+
+SELECT c.pizza_id,
+       p.pizza_name,
+       COUNT(c.pizza_id) AS delivered_pizza_by_type
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+JOIN pizza_names AS p
+ON p.pizza_id = c.pizza_id
+WHERE cancellation = 'No Cancellation'
+GROUP BY 1, 2;
+
+```
+
+#### Solution:
+
+![Screenshot 2023-09-01 at 5 12 03 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/efa50629-4467-4816-8bfa-34597960e8c6)
+
+
+
+#### Interpretation:
+
+9 meatlovers pizzas were delivered while vegetarian pizzas had only 3 deliveries.
+
+***
+
+
+
+### Question 5: How many Vegetarian and Meatlovers were ordered by each customer?
+
+
+#### Approach:
+
+1. First, perform an **INNER JOIN** between `customer_orders_temp` and `pizza_names`
+   to get the appropriate pizza names.
+   
+2. To get how many Vegetarian and Meatlovers pizzas were ordered by each customer,
+   use **COUNT(p.pizza_name)**. Next, **GROUP BY** the `customer_id` then the `pizza_name`.
+
+3. **ORDER BY** the `customer_id` for better readabilty.
+
+
+```sql
+
+SELECT c.customer_id,
+       p.pizza_name,
+       COUNT(p.pizza_name) AS pizzas_ordered
+FROM customer_orders_temp AS c
+JOIN pizza_names AS p
+ON p.pizza_id = c.pizza_id
+GROUP BY 1, 2
+ORDER BY 1;
+
+```
+
+#### Solution:
+
+![Screenshot 2023-09-01 at 5 15 18 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7d2e6391-0530-4325-9d0f-a884ebc5f34d)
+
+
+
+#### Interpretation:
+
+1. Customer 101 ordered 2 Meatlovers pizzas and 1 Vegetarian pizza.
+2. Customer 102 ordered 2 Meatlovers pizzas and 1 Vegetarian pizza.
+3. Customer 103 ordered 3 Meatlovers pizzas and 1 Vegetarian pizza.
+4. Customer 104 ordered 3 Meatlovers pizzas.
+5. Customer 105 ordered 1 Vegetarian pizza.
+
+***
+
+
+
+### Question 6: What was the maximum number of pizzas delivered in a single order?
+
+
+#### Approach:
+
+1. We need information from both the `customer_orders_temp` and 
+   `runner_orders_temp` so perform an **INNER JOIN** between these two tables.
+   
+2. Filter where `cancellation` equals *'No Cancellation'*.
+
+3. To get the max number of pizzas delevered in a single order, use
+   **COUNT(c.order_id)** then **GROUP BY** `order_id`. Next, **ORDER BY** **COUNT(c.order_id)** 
+   in descending order then use **LIMIT** to select the first row.
+
+
+```sql
+
+SELECT c.order_id,
+       COUNT(c.order_id) AS max_orders_delivered
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 1;
+
+```
+
+
+#### Solution:
+
+
+![Screenshot 2023-09-01 at 5 19 48 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4a671e00-585c-4822-90a6-e49044177f3d)
+
+
+#### Interpretation:
+
+Order number 4 had the most number of pizzas delivered which was 3.
+
+***
+
+
+
+### Question 7: For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
+
+
+#### Approach:
+
+1. Create a common table expression called `added_column`. Within the CTE,
+   perform an **INNER JOIN** between `customer_orders_temp` and `runner_orders_temp`.
+   
+   
+2. To help answer the question, select all the necessary columns and use **CASE WHEN** to add
+   an additional column with the appropriate conditions. When 'exlusions' equals *'no exclusions'*
+   and `extras` equals *'no extraas'* then write *'no changes'*. If the value doesn't follow this 
+   criteria write *'at least one change'*. Name the new column, `changes_made_to_pizza`.
+
+3. Filter where `cancellation` equals *'No Cancellation'*.
+
+
+4. Outside of the CTE, select the `customer_id`, `changes_made_to_pizza`, and 
+   **COUNT(a.changes_made_to_pizza)**. Afterwards, **GROUP BY** the `customer_id` followed by
+   `changes_made_to_pizza` to get the appropriate solution.
+
+
+```sql
+
+WITH added_column AS (
+
+SELECT c.customer_id,
+       c.exclusions,
+       c.extras,
+       CASE WHEN c.exclusions = 'no exclusions' AND c.extras = 'no extras' THEN 'no changes'
+            ELSE 'at least one change' END AS changes_made_to_pizza
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+
+)
+
+
+SELECT a.customer_id,
+       a.changes_made_to_pizza,
+       COUNT(a.changes_made_to_pizza) AS changes_count
+FROM added_column AS a
+GROUP BY 1, 2
+ORDER BY 1;
+
+```
+
+#### Solution:
+
+![Screenshot 2023-09-01 at 5 37 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/e1d4d99f-2319-4b88-98d1-44566a52b632)
+
+
+
+#### Interpretation:
+
+1. Customer 101 and 102 made no changes on all the pizzas they ordered.
+
+2. Customer 103 and 104 made at least one change to the pizzas they ordered
+   except for one pizza ordered by customer 104.
+
+3. Customer 105 had at least one change.
+
+
+***
+
+
+
+### Question 8: How many pizzas were delivered that had both exclusions and extras?
+
+
+#### Approach:
+
+1. Create a common table expression called `exclusions_and_extras`. Within the CTE,
+   perform an **INNER JOIN** between `customer_orders_temp` and `runner_orders_temp`.
+   
+   
+2. Use **CASE WHEN** to indicate when `exlusions` does not equal *'no exclusions'*
+   and `extras` does not equal *'no extras'* then write *'both'*. If the value doesn't follow this 
+   criteria write *'n/a'*. Again, name the new column, `changes_made_to_pizza`.
+
+3. Filter where `cancellation` equals *'No Cancellation'*.
+
+
+
+4. Outside of the CTE, select `changes_made_to_pizza`, and 
+   **COUNT(a.changes_made_to_pizza)**. Afterwards, **GROUP BY** the `changes_made_to_pizza`
+   then use **HAVING** to filter the results where `changes_made_to_pizza`
+   equals *'both'*.
+
+
+```sql
+
+
+WITH exclusions_and_extras AS (
+
+SELECT c.customer_id,
+       c.exclusions,
+       c.extras,
+       CASE WHEN c.exclusions != 'no exclusions' AND c.extras != 'no extras' THEN 'both'
+            ELSE 'n/a' END AS changes_made_to_pizza
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+
+)
+
+
+SELECT e.changes_made_to_pizza,
+       COUNT(e.changes_made_to_pizza) AS changes_count
+FROM exclusions_and_extras AS e
+GROUP BY 1
+HAVING e.changes_made_to_pizza = 'both';
+
+
+
+```
+
+
+#### Solution:
+
+
+![Screenshot 2023-09-01 at 5 43 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/89312e1e-17cf-4286-8ee2-1de11d4e6dc9)
+
+
+#### Interpretation:
+
+Only 1 pizza that was delivered had both extras and exclusions.
+
+***
+
+
+
+### Question 9: What was the total volume of pizzas ordered for each hour of the day?
+
 
 
 #### Approach:
 
 
+1. Use **DATE_PART()** to extract the *hour* from `order_time` in the `customers_orders_temp`
+   table.
+
+2. In addition, select the **COUNT(order_id)** then **GROUP BY DATE_PART('hour', order_time)**
+   to get the intended results.
+   
+3. **ORDER BY** the hours extracted from `order_time`.
+
+
 ```sql
+
+SELECT DATE_PART('hour', order_time) AS hour,
+       COUNT(order_id) total_orders_by_hour
+FROM customer_orders_temp
+GROUP BY 1
+ORDER BY 1;
+
+```
+
+#### Solution:
+
+
+
+![Screenshot 2023-09-01 at 5 53 29 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1683d24d-1857-4fbf-9106-81a765b377df)
+
+
+
+#### Interpretation:
+
+Most orders were placed between 13-18 (1:00 pm - 6:00 pm) and 21-23 (9:00 pm - 11:00 pm).
+Only 1 order was made at 11 (11:00 am) and 19 (7:00 pm).
+
+***
+
+
+### Question 10: What was the volume of orders for each day of the week?
+
+
+#### Approach:
+
+1. Use **DATE_PART()** to extract the day of the week from `order_time` in the `customers_orders_temp`
+   table.
+
+2. In addition, select the **COUNT(order_id)** then **GROUP BY DATE_PART('dow', order_time)**
+   to get the intended results.
+   
+3. **ORDER BY** the day of the week extracted from `order_time`.
+
+
+```sql
+
+SELECT DATE_PART('dow', order_time) AS day_of_week,
+       COUNT(order_id) total_orders_by_dow
+FROM customer_orders_temp
+GROUP BY 1
+ORDER BY 1;
 
 
 ```
@@ -348,174 +746,14 @@ FROM customer_orders_temp;
 #### Solution:
 
 
-#### Interpretation:
+![Screenshot 2023-09-01 at 5 59 33 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/60ff127f-03de-4579-9333-c2d933e655a7)
 
-
-***
-
-
-
-### Question 3: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
 
 
 #### Interpretation:
 
-
-***
-
-
-### Question 4: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-
-### Question 5: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-
-### Question 6: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-
-### Question 7: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-
-### Question 8: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-
-### Question 9: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-### Question 10: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
+Most of the volume of orders occurred on Wednesday and Saturday followed by Thursday.
+Suprisingly, only 1 order was placed on Friday.
 
 ***
 
@@ -524,22 +762,64 @@ FROM customer_orders_temp;
 ## B. Runner and Customer Experience
 
 
-### Question 1: 
+### Question 1: How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 
 
 #### Approach:
 
+1. From the `runners` table, use **DATE_PART()** to extract the week from the `registration_date`.
+
+2. Afterwards, select **COUNT(runner_id)** then **GROUP BY DATE_PART('week', registration_date)**.
+
 
 ```sql
+
+SELECT DATE_PART('week', registration_date) AS week,
+       COUNT(runner_id) AS num_of_runners
+FROM runners
+GROUP BY 1
+ORDER BY 1;
+
+```
+
+
+
+![Screenshot 2023-09-01 at 6 02 06 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9e0c40bf-1958-4a66-8253-d3b7c69f91ff)
+
+
+
+3. Upon evaluating the results, one issue stands out. It seems that the earliest registration dates
+   are being considered as dates in the last week of the year.
+
+4. If we refer to a calender, the week starts on 2021-01-04 instead of 2021-01-01. To fix this, we need 
+   to offset the `registration_date` by 3 days. In other words, in **DATE_PART()** add 3
+   to the `registration_date`.
+
+
+```sql
+
+SELECT DATE_PART('week', registration_date + 3) AS week,
+	   COUNT(runner_id) AS num_of_runners
+FROM runners
+GROUP BY 1
+ORDER BY 1;
 
 
 ```
 
+
+
 #### Solution:
+
+
+![Screenshot 2023-09-01 at 6 03 39 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a99a823b-03b6-4d35-b884-13d7d3ae0f5a)
+
 
 
 #### Interpretation:
 
+2 runners registered in the first week of 2021. Only 1 runner registered in the
+second and third week of January.
 
 ***
 
