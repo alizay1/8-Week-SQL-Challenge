@@ -1310,21 +1310,54 @@ The most common exclusion was cheese.
 ## D. Pricing and Ratings
 
 
-### Question 1: 
+### Question 1: If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees? 
 
 
 #### Approach:
 
 
+1. Start by creating a common table expression called `prices`.
+   We need to create an additional column that lists out the prices
+   corresponding to the pizza type. So within the CTE, use a **CASE 
+   WHEN** statement that indicates if the `pizza_id` is 1 (Meatlovers) 
+   then write *12* else *10* for 2 (Vegetarian).
+   
+2. Make sure to perform an **INNER JOIN** between `customer_orders_temp`
+   and `runner_orders_temp`. Furthermore, filter where `cancellation` equals
+   *'No Cancellation'*.
+
+3. Outside of the CTE, select **SUM(p.pizza_price)** from `prices`
+   to see how much money Pizza Runner made.
+
+
+
 ```sql
 
+WITH prices AS (
+ 
+SELECT c.pizza_id,
+       CASE WHEN c.pizza_id = 1 THEN 12
+       ELSE 10 END AS pizza_price
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+
+)
+
+SELECT SUM(p.pizza_price) AS profit
+FROM prices AS p
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 7 28 08 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/610a58e1-a19b-4ad6-934d-0df0c74e10ec)
+
 
 #### Interpretation:
+
+Pizza Runner's profit was 138 dollars.
 
 
 ***
@@ -1332,86 +1365,238 @@ The most common exclusion was cheese.
 
 
 
-### Question 2: 
+### Question 2: Question 2: What if there was an additional $1 charge for any pizza extras?
+
+
 
 
 #### Approach:
 
+1. Using the same query from the previous question, we now have to differentiate the
+   prices by indicating if any extras were made on the pizzas.
 
 ```sql
+
+WITH prices AS (
+ 
+SELECT c.pizza_id,
+       c.exclusions,
+       c.extras,
+       CASE WHEN c.pizza_id = 1 AND c.extras = 'no extras' THEN 12
+	    WHEN c.pizza_id = 2 AND c.extras = 'no extras' THEN 10
+	    WHEN c.pizza_id = 1 AND c.extras = '1' THEN 12 + 1
+	    WHEN c.pizza_id = 2 AND c.extras = '1' THEN 10 + 1
+	    ELSE 12 + 2 END AS pizza_price
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+
+)
+
+SELECT SUM(p.pizza_price) AS profit
+FROM prices AS p
 
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 7 31 26 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3569259e-646f-4a5f-b6b0-1fd4d2725463)
+
+
 
 #### Interpretation:
+
+Pizza Runner's profit was 142 dollars.
+
+***
+
+
+
+### Question 3: The Pizza Runner team now wants to add an additional ratings system that allows customers to rate their runner, how would you design an additional table for this new dataset - generate a schema for this new table and insert your own datafor ratings for each successful customer order between 1 to 5.
+
+
+Note: Ratings did not apply to non-delivered orders.
+
+
+```sql
+
+
+DROP TABLE IF EXISTS runner_rating;
+CREATE TABLE runner_rating (
+	order_id INTEGER,
+	rating NUMERIC
+);
+
+INSERT INTO runner_rating 
+	(order_id, rating)
+VALUES
+	(1, 4),
+	(2, 4.5),
+	(3, 2),
+	(4, 1),
+	(5, 4.5),
+	(7, 3),
+	(8, 3.5),
+	(10, 5);
+
+
+```
+
+
+![Screenshot 2023-09-01 at 7 34 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f621a1b6-375d-453d-b932-fc4ca5640bdc)
+
+
+
+
 
 
 ***
 
 
 
-### Question 3: 
+### Question 4: Using your newly generated table - can you join all of the information together to form a table which has the following information for successful deliveries?
+
+**Information to use:**
+
+-`customer_id`
+
+-`order_id`
+
+-`runner_id`
+
+-`rating`
+
+-`order_time`
+
+-`pickup_time`
+
+- Time between order and pickup
+- Delivery duration
+- Average speed
+- Total number of pizzas
 
 
 #### Approach:
 
 
+1. Perform an **INNER JOIN** between `customer_orders_temp`, `runner_rating`,
+   and `runner_orders_temp`.
+  
+2. Luckily for us, we already found the difference between the `pickup_time`
+   and `order_time`, the average speed in km/hr, and the total number of pizzas in the
+   previous sections. Therefore, we can use the same SQL code in this query.
+   
+3. Select all the requested columns, then **GROUP BY** the columns that do not use 
+   aggregations.
+   
+   
+4. **ORDER BY** `customer_id` for better readability.
+	
+
+
 ```sql
 
+SELECT c.customer_id,
+       c.order_id,
+       ro.runner_id,
+       r.rating,
+       c.order_time,
+       ro.pickup_time,
+       EXTRACT(MINUTE FROM (ro.pickup_time - c.order_time)) AS time_difference,
+       duration_in_min AS delivery_duration,
+       ROUND(AVG((ro.distance_in_km) / (CAST(ro.duration_in_min AS numeric)/ 60)), 1) AS avg_speed_in_kmh,
+       COUNT(c.order_id) AS total_pizzas
+FROM customer_orders_temp AS c
+JOIN runner_rating AS r
+ON c.order_id = r.order_id
+JOIN runner_orders_temp AS ro
+ON c.order_id = ro.order_id
+GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+ORDER BY 1;
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 7 40 35 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ecc44a72-435a-4834-b17b-a8f27bb4cbc6)
 
-#### Interpretation:
 
 
 ***
 
 
 
-### Question 4: 
+
+### Question 5: If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries? 
 
 
 #### Approach:
 
+1. We can use the common table expression from question 1 in this section 
+   to help answer this question. Take the same CTE and rename the first table as `cost_table`. 
+   
+2. Create another table in the common table expression called `pizza_cost`. Here,
+   select the `order_id` and  **SUM(pizza_cost)** from `cost_table` then **GROUP BY** `order_id`.
+   The reason we are doing this is because even for orders with multiple pizzas, 
+   only one runner will deliver the whole order. So, this is another way of removing
+   any duplicate `runner_id` by aggregating the `pizza_cost` by `order_id` before we join 
+   the table with `runner_orders_temp`.
+   
+
+3. Outside of the CTE, select from `pizza_cost` the **SUM(p.pizza_cost1)**, the 
+   **SUM(r.distance_in_km * 0.3)** to calculate the cost per km travelled by
+   each runner, and **SUM(p.pizza_cost1) - SUM(r.distance_in_km * 0.3)** to
+   calculate the profit made.
+
+4. Lastly, **INNER JOIN** the `pizza_cost` table with the `runner_orders_temp` table.
+
+	
 
 ```sql
+
+WITH cost_table AS (
+
+SELECT c.order_id,
+       c.pizza_id,
+       CASE WHEN c.pizza_id = 1 THEN 12
+            ELSE 10 END AS pizza_cost
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON c.order_id = r.order_id
+WHERE cancellation = 'No Cancellation'
+
+),
+
+pizza_cost AS (
+		
+SELECT order_id,
+       SUM(pizza_cost) AS pizza_cost1
+FROM cost_table
+GROUP BY order_id
+)
+
+SELECT SUM(p.pizza_cost1) AS total_pizza_cost,
+       SUM(r.distance_in_km * 0.3) AS payment_for_distance,
+       SUM(p.pizza_cost1) - SUM(r.distance_in_km * 0.3) AS profit
+FROM pizza_cost AS p
+JOIN runner_orders_temp AS r
+ON p.order_id = r.order_id
+
 
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 7 48 39 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/bf5d2884-55f3-4ee5-9812-0b5d84e3e427)
 
-#### Interpretation:
-
-
-***
-
-
-
-
-### Question 5: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
 
 
 #### Interpretation:
 
+Pizza Runner has $94.44 left over.
 
 
 
