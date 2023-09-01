@@ -1110,9 +1110,7 @@ ORDER BY 2 DESC;
 
 
 1. Runner 1 had a 100% success rate.
-
 2. Runner 2 had a 75% success rate.
-
 3. Runner 3 only had a 50% success rate.
 
 
@@ -1124,21 +1122,63 @@ ORDER BY 2 DESC;
 ## C. Ingredient Optimization
 
 
-### Question 1: 
+### Question 1: What are the standard ingredients for each pizza?
 
 
 #### Approach:
 
 
+1. Looking at the `pizza_recipes` and `pizza_toppings` tables, we need
+   to somehow join these two tables to include the `pizza_id` and/or the `pizza_name`, 
+   the `ingredients`, and the `toppings`. The problem is that in the `pizza_recipes`
+   table the `toppings` are listed out in the same row so joining the two tables
+   won't be possible without some adjustments.
+
+2. To address this issue, utilize the **STRING_TO_ARRAY()** function on the
+   `toppings` column indicating the comma as the delimiter. This function serves
+   to split a string into array elements. Next, place **STRING_TO_ARRAY(toppings,',')**
+   into the **UNNEST()** function which will expand the array elements into rows.
+   Make sure to **CAST** the unnested list as an integer or we won't be able to join the
+   tables. Place this query in a common table expression named `seperated_list`.
+
+
+3. In the outer query, **INNER JOIN** the `pizza_toppings` and `seperated_list` tables.
+   Next, **INNER JOIN** the `pizza_names` table. Make sure to join on the `topping_id`
+   and the `pizza_id` from the `seperated_list` table.
+
+
+4. Select all the necessary columns to get the intended results.
+
+
 ```sql
 
+WITH seperated_list AS (
+	
+SELECT pizza_id,
+       CAST(UNNEST(STRING_TO_ARRAY(toppings,',')) AS integer) AS topping_id
+FROM pizza_recipes
+	
+)
+
+
+SELECT pn.pizza_name,
+       p.topping_name AS ingredients,
+       p.topping_id AS ingredient_id
+FROM pizza_toppings AS p
+JOIN seperated_list AS s
+ON s.topping_id = p.topping_id
+JOIN pizza_names AS pn
+ON s.pizza_id = pn.pizza_id
+ORDER BY 1, 3;
 
 ```
 
 #### Solution:
 
 
-#### Interpretation:
+
+![Screenshot 2023-09-01 at 6 50 11 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/86156515-753b-42ae-9a72-1e271707b940)
+
 
 
 ***
@@ -1146,13 +1186,54 @@ ORDER BY 2 DESC;
 
 
 
-### Question 2: 
+### Question 2: What was the most commonly added extra?
+
 
 
 #### Approach:
 
+1. Following a similar approach to the previous question, 
+   use **UNNEST(STRING_TO_ARRAY(extras, ','))** since some of the
+   extras are listed out in one row. In addition, **CAST** it as an integer data type.
+
+2. Next, select **COUNT(*)** then **GROUP BY**
+   **CAST(UNNEST(STRING_TO_ARRAY(extras, ',')) AS integer)**.
+
+3. Filter the results where `extras` does not equal *'no extras'*.
+
+4. Put the resulting query in a common table expression called
+   `common_extra`.
+
+  
+5. In the outer query, **INNER JOIN** the `pizza_toppings` and `common_extra` tables.
+
+6. Select all the necessary columns, **ORDER BY** `extras_count` in descending order
+   from the `common_extra` table, then use **LIMIT** to get the most commonly added
+   extra.
+
 
 ```sql
+
+WITH common_extra AS (
+
+SELECT CAST(UNNEST(STRING_TO_ARRAY(extras, ',')) AS integer) AS extras,
+       COUNT(*) AS extras_count
+FROM customer_orders_temp
+WHERE extras != 'no extras'
+GROUP BY 1
+
+
+)
+
+
+SELECT p.topping_name AS ingredients,
+       c.extras AS topping_id,
+       c.extras_count
+FROM pizza_toppings AS p
+JOIN common_extra AS c
+ON c.extras = p.topping_id
+ORDER BY 3 DESC
+LIMIT 1;
 
 
 ```
@@ -1160,29 +1241,66 @@ ORDER BY 2 DESC;
 #### Solution:
 
 
+![Screenshot 2023-09-01 at 6 52 52 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0cad7830-7790-4502-aa56-5ce05978fb5e)
+
+
+
 #### Interpretation:
 
+
+The most commonly added extra was bacon.
 
 ***
 
 
 
-### Question 3: 
+### Question 3: What was the most common exclusion?
 
 
 #### Approach:
 
 
+1. Use the same exact approach as the previous question, but this time
+   replace `extras` with the `exclusions` column.
+ 
+
+
 ```sql
 
+
+WITH common_exclusions AS (
+
+SELECT CAST(UNNEST(STRING_TO_ARRAY(exclusions, ',')) AS integer) AS exclusions,
+       COUNT(*) AS exclusions_count
+FROM customer_orders_temp
+WHERE exclusions != 'no exclusions'
+GROUP BY 1
+
+
+)
+
+
+
+SELECT p.topping_name AS ingredients,
+       c.exclusions AS topping_id,
+       c.exclusions_count
+FROM pizza_toppings AS p
+JOIN common_exclusions AS c
+ON c.exclusions = p.topping_id
+ORDER BY 3 DESC
+LIMIT 1;
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-01 at 6 58 41 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9febe7ae-3996-479e-8fa2-3489dd538d64)
+
 
 #### Interpretation:
 
+
+The most common exclusion was cheese.
 
 ***
 
