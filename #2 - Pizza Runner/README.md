@@ -753,7 +753,7 @@ ORDER BY 1;
 #### Interpretation:
 
 Most of the volume of orders occurred on Wednesday and Saturday followed by Thursday.
-Suprisingly, only 1 order was placed on Friday.
+Surprisingly, only 1 order was placed on Friday.
 
 ***
 
@@ -825,13 +825,169 @@ second and third week of January.
 
 
 
-### Question 2: 
+### Question 2: What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
 
 
 #### Approach:
 
 
+1. What we need is the `runner_id`, `pickup_time`, and `order_time`. Start by performing
+   an **INNER JOIN** between the `customer_orders_temp` and `runner_orders_temp`. Next,
+   filter the results where `cancellation` equals *'No Cancellation'*.
+
+2. Let's find how long it took each runner to pick up an order. We need to find the difference 
+   between the `pickup_time` and the `order_time`. Use **EXTRACT()** to take out the exact minutes
+   from the difference of the two times. From here, use **AVG()** around the differenced times then 
+   **GROUP BY** `runner_id`.
+   
+3. Utilize **ROUND()** to clean up the results, then **ORDER BY** the averaged times in descending order.
+
+
+
+
 ```sql
+
+SELECT r.runner_id,
+       ROUND(AVG(EXTRACT(MINUTE FROM (r.pickup_time - c.order_time))), 2) AS avg_time
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+GROUP BY 1
+ORDER BY 2 DESC;
+
+```
+
+#### Solution:
+
+
+![Screenshot 2023-09-01 at 6 09 22 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/aece9bf1-9d99-4a15-92ac-15c6ce845a8e)
+
+
+
+#### Interpretation:
+
+On average, runner 2 took the most time to pick up orders followed by runner 1 then 3.
+
+***
+
+
+
+### Question 3: Is there any relationship between the number of pizzas and how long the order takes to prepare?
+
+
+#### Approach:
+
+
+1. Perform an **INNER JOIN** between the `customer_orders_temp` and `runner_orders_temp`. Next,
+   filter the results where `cancellation` equals *'No Cancellation'*.
+
+2. To find the number of pizzas for each order, use **COUNT(c.order_id)**.
+
+3. As with the previous question, find the difference between the `pickup_time` and the `order_time`
+   and then use **EXTRACT()** to take out the exact minutes. Subsequently, use **SUM()** to get the total time.
+   
+4. To get the intended results, **GROUP BY** `order_id` then **ORDER BY** the number of pizzas.
+	
+
+
+```sql
+
+SELECT c.order_id,
+       COUNT(c.order_id) AS num_of_pizzas,
+       SUM(EXTRACT(MINUTE FROM (r.pickup_time - c.order_time))) AS total_time_in_min
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+GROUP BY 1
+ORDER BY 2;
+
+```
+
+#### Solution:
+
+
+![Screenshot 2023-09-01 at 6 13 36 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/985883fe-fc83-4ead-8489-c01d68676eb0)
+
+
+
+#### Interpretation:
+
+As the number of pizzas increases, the time it takes to make them increases
+as well.
+
+***
+
+
+### Question 4: What was the average distance travelled for each customer?
+
+
+#### Approach:
+
+1. Perform an **INNER JOIN** between the `customer_orders_temp` and `runner_orders_temp`. Next,
+   filter the results where `cancellation` equals *'No Cancellation'*.
+
+2. Use **ROUND(AVG(r.distance_in_km), 2)** then **GROUP BY** `customer_id` to find the 
+   rounded average distances for each customer.
+   
+3. **ORDER BY** the averaged distances in descending order.
+
+
+```sql
+
+
+SELECT c.customer_id,
+       ROUND(AVG(r.distance_in_km), 2) AS avg_distance_km
+FROM customer_orders_temp AS c
+JOIN runner_orders_temp AS r
+ON r.order_id = c.order_id
+WHERE r.cancellation = 'No Cancellation'
+GROUP BY 1
+ORDER BY 2 DESC;
+
+```
+
+#### Solution:
+
+
+![Screenshot 2023-09-01 at 6 18 45 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/fbe6628d-c4d7-410b-9a39-684fb2ee4622)
+
+
+
+#### Interpretation:
+
+On average:
+
+1. 25 kilometers were travelled for customer 105.  
+2. 23.40 kilometers were travelled for customer 103. 
+3. 20 kilometers were travelled for customer 101.
+4. 16.73 kilometers were travelled for customer 102.
+5. 10 kilometers were travelled for customer 104.
+
+
+***
+
+
+### Question 5: What was the difference between the longest and shortest delivery times for all orders?
+
+
+#### Approach:
+
+
+1. First, to find the difference between the longest and shortest delivery
+   times simply use **MAX(duration_in_min)** and **MIN(duration_in_min)** and 
+   take the difference between the two.
+
+2. Filter the results where `cancellation` equals *'No Cancellation'*.
+
+
+
+```sql
+
+SELECT MAX(duration_in_min) - MIN(duration_in_min) AS diff_in_time
+FROM runner_orders_temp
+WHERE cancellation = 'No Cancellation'
 
 
 ```
@@ -839,74 +995,19 @@ second and third week of January.
 #### Solution:
 
 
+![Screenshot 2023-09-01 at 6 21 53 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/166f2ec2-afc0-480c-9044-70bc4115097f)
+
+
 #### Interpretation:
+
+The difference in time was 30 minutes.
+
 
 
 ***
 
 
-
-### Question 3: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-### Question 4: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-### Question 5: 
-
-
-#### Approach:
-
-
-```sql
-
-
-```
-
-#### Solution:
-
-
-#### Interpretation:
-
-
-***
-
-
-### Question 6: 
+### Question 6: What was the average speed for each runner for each delivery and do you notice any trend for these values?
 
 
 #### Approach:
