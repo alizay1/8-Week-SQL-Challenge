@@ -303,18 +303,29 @@ Note: `customer_orders_temp` and `runner_orders_temp` will be used for the remai
 
 ## A. Pizza Metrics
 
-### Question 1: 
+### Question 1: How many pizzas were ordered?
+
 
 
 #### Approach:
 
+1. For this question, we simply have to count all the orders.
+   Select **COUNT(order_id)** from the `customer_orders_temp` table and
+   rename it as `pizzas_ordered`.
 
 ```sql
 
+SELECT COUNT(order_id) AS pizzas_ordered
+FROM customer_orders_temp;
 
 ```
 
+
+
 #### Solution:
+
+
+![Screenshot 2023-09-01 at 4 53 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/367f852b-f9fc-4d98-870b-25f39e05df0e)
 
 
 #### Interpretation:
