@@ -150,13 +150,46 @@ that the tables remain in its original state.
 ### Customer Orders Table
 
 
+
 #### Approach:
 
+
+
+1. Create a temporary table called `customer_orders_temp`.
+
+2. Use **CASE WHEN** statements to reformat the columns for `exclusions` and 
+   `extras`. Indicate for `exclusions` that if the values are null characters or blank, 
+   replace with *'no exclusions'* text. For `extras`, if the values are null, null 
+   characters, or blanks, then replace with *'no extras'* text.
+
+3. Make sure to select all the other columns from the `customer_orders` table.
+
+   
 
 ```sql
 
 
+ 
+DROP TABLE IF EXISTS customer_orders_temp;
+CREATE TEMP TABLE customer_orders_temp AS (
+ 
+SELECT order_id,
+       customer_id,
+       pizza_id,
+       CASE WHEN exclusions = 'null' OR exclusions = '' THEN 'no exclusions'
+            ELSE exclusions END AS exclusions,
+       CASE WHEN extras IS NULL OR extras = 'null' OR extras = '' THEN 'no extras'
+            ELSE extras END AS extras,
+       order_time
+ FROM customer_orders
+
+ 
+)
+
+
 ```
+
+![Screenshot 2023-09-01 at 2 31 31 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/46bcba0d-f96e-4a4b-a6ae-26330b1ee4f5)
 
 
 
@@ -167,17 +200,87 @@ that the tables remain in its original state.
 
 #### Approach:
 
+1. Create a temporary table called `runner_orders_temp`.
+
+2. First, create an inline subquery called `removed_nulls` that selects
+   all columns from `runner_orders` and uses **CASE WHEN** statements to
+   change the `pickup_time`, `distance`, `duration`, and `cancellation` columns.
+   
+3. For the null characters in `pickup_time`, `distance`, and `duration`, simply
+   replace with the NULL function since these columns will be casted as either
+   an integer, numeric, or timestamp.
+   
+4. Lastly, for the `cancellation` column, if the values are null, null 
+   characters, or blanks, then replace with *'No Cancellation'* text.
+
+
+5. Now that the null values have been addressed, the characters in the `distance`
+   and `duration` columns need to to be removed. Start by selecting all columns
+   from `removed_nulls`.
+
+6. To remove the *'km'* in the `distance` column, utilize **TRIM(TRAILING 'km' FROM distance)**.
+   Next, take out any unwanted spaces by inserting **TRIM(TRAILING 'km' FROM distance)** into
+  **REPLACE()** as the first argument. Furthermore, use ' ' and '' as the second and third
+   argument respectively in the same function. Save the newly reformatted column
+   as `distance_in_km`.
+   
+7. In the `duration` column, since the time for each order is two digits, utilize **LEFT(duration, 2)**
+   to extract the first two characters. Rename the reformatted column as `duration_in_min`.
+   
+
 
 ```sql
 
 
+ 
+DROP TABLE IF EXISTS runner_orders_temp;
+CREATE TEMP TABLE runner_orders_temp AS (
+ 
+SELECT order_id,
+       runner_id,
+       pickup_time,
+       REPLACE(TRIM(TRAILING 'km' FROM distance), ' ', '') AS distance_in_km,
+       LEFT(duration, 2) AS duration_in_min,
+       cancellation
+FROM		(SELECT order_id,
+                 runner_id,
+                 CASE WHEN pickup_time = 'null' THEN NULL
+                      ELSE pickup_time END AS pickup_time,
+                 CASE WHEN distance = 'null' THEN NULL
+                      ELSE distance END AS distance,
+                 CASE WHEN duration = 'null' THEN NULL
+                      ELSE duration END AS duration,
+                 CASE WHEN cancellation IS NULL OR cancellation = 'null' OR cancellation = '' THEN 'No Cancellation'
+                      ELSE cancellation END AS cancellation
+          FROM runner_orders) removed_nulls
+
+)
+
+
 ```
+
+
+![Screenshot 2023-09-01 at 2 31 31 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/42ac5d03-93d3-4ba7-acc1-d27c0c36f0d6)
+
+
+
+8. You will notice that the `pickup_time` data type is character varying, while `distance_in_km`
+   and `duration_in_min` are texts. This will obviously be a problem later
+   on in the analysis.
+   
+9. To address this, use **ALTER TABLE** to alter the columns previously mentioned. For
+   `pickup_time`, **TIMESTAMP WITHOUT A TIME ZONE** is the most appropriate choice. For 
+   `distance_in_km` since some values have decimals, utilize a **NUMERIC** data type. 
+   Lastly, for `duration_in_min`, change it to an **INTEGER** data type.
+
 
 
 ***
 
 # Data Analysis Questions
 
+
+Note: `customer_orders_temp` and `runner_orders_temp` will be used for the remainder of the analysis.
 
 
 #### Approach:
