@@ -1012,28 +1012,90 @@ The difference in time was 30 minutes.
 
 #### Approach:
 
+1. The speed formula is the distance travelled divided by time. In this case, we 
+   need to divide each `distance_in_km` by `duration_in_min` to
+   get the speed. However before this, let's convert the `duration_in_min` to hours to
+   get *km/hr*. 
+  
+2. First, use **CAST** to change `duration_in_min` data type to numeric, then divide each value by 60 in the
+   column to convert to hours. Changing the values to numeric will allow division of decimals close to 0. 
+   Afterwards, divide `distance_in_km` by **CAST(duration_in_min AS numeric)/ 60)**.
+
+3. Use **ROUND(AVG(....), 2)** then **GROUP BY** the `order_id` followed by
+   the `runner_id` to get the the average speed in km/hr.
+
+
+4. Lastly, filter the results where `cancellation` equals *'No Cancellation'*.
+
+
 
 ```sql
 
+SELECT  order_id,
+        runner_id,
+        ROUND(AVG((distance_in_km) / (CAST(duration_in_min AS numeric)/ 60)), 2) AS avg_speed_in_kmh
+FROM runner_orders_temp
+WHERE cancellation = 'No Cancellation'
+GROUP BY 1, 2
+ORDER BY 2, 3
 
 ```
 
 #### Solution:
 
 
+![Screenshot 2023-09-01 at 6 28 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5c9e9230-fe64-4c3c-ad3d-9eae0cc425ce)
+
+
+
 #### Interpretation:
 
+
+1. Runner 1's average speed gradually increased between 37.50 km/hr to 60 km/hr by order.
+2. By the end of their deliveries, runner 2's average speed increased about 3x.
+3. Runner 3's average speed was 40 km/hr.
 
 ***
 
 
-### Question 7: 
+### Question 7: What is the successful delivery percentage for each runner?
 
 
 #### Approach:
 
 
+1. First create a common table expression aliased as `runner_success`. Use two **CASE WHEN** statements to
+   add two new columns where the first indicates if the order was successful or not.
+   And for the second, no distiction is needed as it will be considered the total delivered and 
+   non-delivered orders made.
+  
+2. In the outer query, select the **SUM(r.successful_deliveries)** divided by **SUM(r.total)** from
+   `runner_success` CTE. Make sure to **CAST** each column to a numeric data type.
+   Lastly, multiply each value by 100 and **ROUND** to the nearest whole number.
+   
+3. **GROUP BY** the `runner_id` to get the successful delivery percentage for each runner.
+
+
+
 ```sql
+
+WITH runner_success AS (
+
+SELECT runner_id,
+       cancellation,
+       CASE WHEN cancellation = 'No Cancellation' THEN 1 ELSE 0 END AS successful_deliveries,
+       CASE WHEN cancellation = 'No Cancellation' THEN 1 ELSE 1 END AS total
+FROM runner_orders_temp 
+
+)
+
+
+SELECT r.runner_id,
+       ROUND((CAST(SUM(r.successful_deliveries) AS numeric)/
+             CAST(SUM(r.total) AS numeric))* 100, 0) AS success_delivery_percent
+FROM runner_success AS r
+GROUP BY 1
+ORDER BY 2 DESC;
 
 
 ```
@@ -1041,7 +1103,17 @@ The difference in time was 30 minutes.
 #### Solution:
 
 
+![Screenshot 2023-09-01 at 6 34 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d9d55b22-47e1-4145-b2b0-f5af33fcc3ed)
+
+
 #### Interpretation:
+
+
+1. Runner 1 had a 100% success rate.
+
+2. Runner 2 had a 75% success rate.
+
+3. Runner 3 only had a 50% success rate.
 
 
 ***
