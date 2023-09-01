@@ -44,8 +44,8 @@ app to accept orders from customers.
 
 ## Entity Relationship Diagram
 
-Looking at the ERD, six tables will be used in the case study; 'runners', 'customer_orders', 'runner_orders', 'pizza_names', 'pizza_recipes', and 
-'pizza_toppings'.
+Looking at the ERD, six tables will be used in the case study; `runners`, `customer_orders`, `runner_orders`, `pizza_names`, `pizza_recipes`, and 
+`pizza_toppings`.
 
 <img width="593" alt="Screenshot 2023-09-01 at 1 38 28 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ad160f59-5784-468a-9b0c-ab4f818eeb13">
 
