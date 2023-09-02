@@ -1,6 +1,8 @@
 # Case Study #3 - Foodie-Fi
 
 
+<img width="663" alt="Screenshot 2023-09-02 at 2 41 31 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9406e6d1-0a70-43ae-8e80-d3548a7580a5">
+
 
 
 Link to Case Study: [click me](https://8weeksqlchallenge.com/case-study-3/)
@@ -35,6 +37,11 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 ## Entity Relationship Diagram
 
 
+Looking at the ERD, only two tables will be used in the case study; plans and subscriptions.
+   
+<img width="649" alt="Screenshot 2023-09-02 at 2 42 14 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/29edda74-ee3e-4c38-aac3-9bc899fa066c">
+
+
 
 ## Tables
 
@@ -42,8 +49,21 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 ### Table 1: plans
 
 
+The `plans` table contains the `plan_id`, the `plan_name`, and the `price`. There are 5 plans in total; trial, basic monthly, pro monthly, pro annual, and churn. The churn plan is when a customer chooses to cancel, but their plan will only terminate at the end of the billing period. Each potential subscriber can start with a 7 day trial period where they will continue with the pro monthly plan afterwards or they can choose a different plan altogether.
+
+
+![Screenshot 2023-09-02 at 2 45 57 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c96689a6-3909-4fd6-b32c-b88fce5c0a58)
+
+
 
 ### Table 2: subscriptions
+
+The `subsriptions` table provides the `customer_id`, the `plan_id` listing all the plans they signed up for, and the `start_date` of when the `plan_id` starts.
+
+- Note: The table only displays the first 15 rows.
+
+
+![Screenshot 2023-09-02 at 2 46 38 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/dda35bfd-432b-4c60-8e8b-b03bf098cff9)
 
 
 ***
@@ -53,13 +73,14 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 
 ### What does Danny want to understand from the data? 
 
-
+1. The customers' decisions and behaviors regarding the subscription service.
 
 
 
 ### Why does he need these insights?
 
-
+1.  If new features are needed in the subscription service.
+2.  Whether making future investments is the best decision.
 
 
 ***
@@ -73,15 +94,15 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 
 ## A. Customer Journey
 
-Based off the 8 sample customers provided in the sample from the `subscriptions` table, write a brief description about each customer’s onboarding journey.
+Based off the 8 sample customers provided in the `subscriptions` sample table below, write a brief description about each customer’s onboarding journey.
 
 Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!
 
 
---screenshot of table
+<img width="268" alt="Screenshot 2023-09-02 at 2 52 20 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/89d16dfe-62c8-4ea3-833e-6ec50524b850">
 
 
-
+#### Approach
 
 ```sql
 
