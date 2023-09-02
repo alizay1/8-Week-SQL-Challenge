@@ -487,27 +487,69 @@ FROM churn_count AS c,
 
 
 1. Start by creating three seperate tables within a common
-   table expression. In the first table called 'rankings', use RANK()
-   to provide the rank of each 'plan_id' by 'customer_id'.
+   table expression. In the first table called `rankings`, use **RANK()**
+   to provide the rank of each `plan_id` by `customer_id`.
 
-2. In the second table called 'num_plans', select the 'plan_id, the 'plan_name'
-   and CAST(COUNT(*) AS numeric) from 'ranked_plans', but only
-   filter where the plan rank equals 2. GROUP BY the 'plan_id' followed
-   by the 'plan_name' for the intended results.
-
-
-3. Reuse the 'total_count' table from the previous question.
+2. In the second table called `num_plans`, select the `plan_id`, the `plan_name`
+   and **CAST(COUNT(*) AS numeric)** from `ranked_plans`, but only
+   filter where the plan rank equals 2. **GROUP BY** the `plan_id` followed
+   by the `plan_name` for the intended results.
 
 
-4. In the outer query, divide the number of plans from 'num_plans' by the 
-   total number of unique customers from 'total_count', multiply by 100,
-   then round to one decimal point. Furthermore, select the 'plan_id', 
-   the 'plan_name', and 'number_of_plans' from 'num_plans'.
+3. Reuse the `total_count` table from the previous question.
+
+
+4. In the outer query, divide the number of plans from `num_plans` by the 
+   total number of unique customers from `total_count`, multiply by 100,
+   then round to one decimal point. Furthermore, select the `plan_id`, 
+   the `plan_name`, and `number_of_plans` from `num_plans`.
 
 
 
 ```sql
 
+
+WITH rankings AS (
+	
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       RANK() OVER (PARTITION BY s.customer_id ORDER BY s.plan_id) As plan_rank
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+
+),
+
+num_plans AS (
+
+
+SELECT r.plan_id,
+       r.plan_name,
+       CAST(COUNT(*) AS numeric) AS number_of_plans
+FROM rankings AS r
+WHERE r.plan_rank = 2
+GROUP BY 1, 2
+
+),
+
+
+total_count AS (
+
+SELECT CAST(COUNT(DISTINCT(customer_id)) AS numeric) AS t_count
+FROM subscriptions
+		
+)
+
+
+
+SELECT n.plan_id,
+       n.plan_name,
+       n.number_of_plans,
+       ROUND((n.number_of_plans/t.t_count) * 100, 1) AS customer_percentage
+FROM num_plans AS n,
+     total_count AS t
+ORDER BY 4 DESC;
 
 
 ```
@@ -515,72 +557,203 @@ FROM churn_count AS c,
 #### Solution:
 
 
+![Screenshot 2023-09-02 at 4 10 46 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/77d6da9c-0910-4a6d-876e-2b1880ea6c42)
+
+
 #### Interpretation:
 
+Foodie-Fi should focus their attention on increasing the subscription rate for the pro annual plan.
 
 
 ***
 
 
-### Question 7:
+### Question 7: What is the customer count and percentage breakdown of all 5 plan_name values at 2020-12-31?
 
 
 #### Approach:
 
+1. Start by creating three seperate tables within a common
+   table expression. In the first table called `filtered_dates`, use RANK()
+   to provide the rank of each `start_date` in descending order by `customer_id`.
+   Filter the results where the `start_date` is less than or equal to '2020-12-31'.
+   
 
+2. In the second table called `c_count`, select the `plan_id`, the `plan_name`,
+   and **CAST(COUNT(*) AS numeric)** from `filtered_dates`, but 
+   filter the results where the rank equals 1. This represents the latest plan the
+   customer was under before the end of '2020-12-31'.
+   **GROUP BY** the `plan_id` followed by the `plan_name` to get the customer count.
+
+
+3. Reuse the `total_count` table from the previous question(s).
+
+
+4. In the outer query, divide the number of customers from `c_count` by the 
+   total number of unique customers from `total_count`, multiply by 100,
+   then round to one decimal point. Furthermore, select the `plan_id`, 
+   the `plan_name`, and `customer_count` from `c_count`.
 
 
 ```sql
 
+WITH filtered_dates AS (
+	
+SELECT s.plan_id,
+       p.plan_name,
+       s.start_date,
+       RANK() OVER(PARTITION BY s.customer_id ORDER BY s.start_date DESC) AS most_recent_plan
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE s.start_date <= '2020-12-31'
+
+),
+
+c_count AS (
+
+SELECT f.plan_id,
+       f.plan_name,
+       CAST(COUNT(*) AS numeric) AS customer_count
+FROM filtered_dates AS f
+WHERE f.most_recent_plan = 1
+GROUP BY 1, 2
+
+),
+
+
+
+total_count AS (
+
+SELECT CAST(COUNT(DISTINCT(customer_id)) AS numeric) AS t_count
+FROM subscriptions
+		
+)
+
+SELECT c.plan_id,
+       c.plan_name,
+       c.customer_count,
+       ROUND((c.customer_count/t.t_count) * 100, 1) AS customer_count_percentage
+FROM c_count AS c,
+     total_count AS t
+ORDER BY 4 DESC;
 
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-02 at 4 15 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/e0670fbe-a01a-40cb-8789-b8ccb5509e5d)
+
 
 #### Interpretation:
 
+More customers are cancelling their subscription than downgrading to a basic monthly plan or saving on monthly costs by selecting the pro
+annual plan.
 
 
 ***
 
 
 
-### Question 8:
+### Question 8: How many customers have upgraded to an annual plan in 2020?
 
 
 #### Approach:
 
-
+1. Use **COUNT(DISTINCT s.customer_id)** to count the number of 
+   unique customers from the subscriptions table. In addition,
+   filter the dates for only the year 2020 and where the `plan_id`
+   equals 3 for pro annual.
 
 
 ```sql
 
-
+SELECT COUNT(DISTINCT customer_id) AS number_of_customers
+FROM subscriptions
+WHERE (start_date > '2019-12-31' AND start_date < '2021-01-01') AND plan_id = 3;
 
 ```
 
 #### Solution:
 
 
+![Screenshot 2023-09-02 at 4 17 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/b506f7e0-7fc2-4e17-b5a0-9ee7164f18ff)
+
+
+
 #### Interpretation:
 
+
+In 2020, 195 customers upgraded to the pro annual plan.
 
 
 ***
 
 
 
-### Question 9:
+### Question 9:  How many days on average does it take for a customer to upgrade to an annual plan from the day they join Foodie-Fi?
 
 
 #### Approach:
 
 
+1. Start by creating two seperate tables within a common
+   table expression. In the first table called `trial_data`,
+   select all the necessary columns, but filter results where
+   the `plan_id` equals 0 for the trial plan.
+   
+
+2. In the second table called `pro_annual_data`, do the same
+   thing as the previous step,  but filter results where
+   the `plan_id` equals 3 for the pro annual plan.
+
+
+3. In the outer query, first **JOIN** the `trial_data` and the
+   `pro_annual_data` tables. Next, calculate the difference
+   between the pro annual `start_date` and the trial period 
+   `start_date` to get how many days a customer took to upgrade
+   to pro annual. Lastly, use the **AVG()** aggregation to get the 
+   intended results.
+
 
 
 ```sql
+
+WITH trial_data AS (
+
+
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE s.plan_id = 0
+
+),
+
+
+pro_annual_data AS (
+
+
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE s.plan_id = 3
+
+)
+
+
+SELECT ROUND(AVG(p.start_date - t.start_date)) AS avg_days
+FROM trial_data AS t
+JOIN pro_annual_data AS p
+ON t.customer_id = p.customer_id;
 
 
 
@@ -589,9 +762,14 @@ FROM churn_count AS c,
 #### Solution:
 
 
+![Screenshot 2023-09-02 at 4 19 57 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9f7fc2f2-5047-4ad6-9ae9-0277acf5594c)
+
+
 #### Interpretation:
 
 
+It takes customers approximately 105 days on average to upgrade to the pro annual plan
+from the day they joined Foodie-Fi.
 
 ***
 
