@@ -225,3 +225,423 @@ FROM subscriptions;
 Foodie-Fi has had 1000 customers.
 
 ***
+
+
+
+
+### Question 2: What is the monthly distribution of trial plan `start_date` values for our dataset - use the start of the month as the group by value 
+
+
+#### Approach:
+
+
+1. First, use **DATE_PART()** to extract the month from `start_date`.
+
+2. Next, utilize **COUNT(plan_id**) then **GROUP BY** the extracted months
+   to get the monthly distribution.
+
+3. Make sure to filter the results where the `plan_id` equals 0
+   for the trial period plan.
+
+
+```sql
+
+SELECT DATE_PART('month', start_date) AS month,
+       COUNT(customer_id)
+FROM subscriptions
+WHERE plan_id = 0
+GROUP BY 1
+ORDER BY 1;
+
+```
+
+#### Solution:
+
+
+![Screenshot 2023-09-02 at 3 41 53 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/de884cc5-03b1-4101-a4c2-d3925a09670f)
+
+
+
+#### Interpretation:
+
+February had the lowest customer subscriptions while March had the highest.
+
+***
+
+
+
+### Question 3: What plan `start_date` values occur after the year 2020 for our dataset? Show the breakdown by count of events for each `plan_name`.
+
+
+#### Approach:
+
+1. Perform an **INNER JOIN** between the `plans` and `subscriptions` tables.
+
+2. Filter the results where the plan `start_date` occurs after '2021-12-31'
+   for the trial period plan.
+
+3. Select the `plan_name` then **COUNT(p.plan_name)**. **GROUP BY** the `plan_name`
+   then **ORDER BY** the count of the `plan_name`.
+
+
+
+```sql
+
+SELECT p.plan_name,
+       COUNT(p.plan_name) AS plan_count
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE start_date > '2020-12-31'
+GROUP BY 1
+ORDER BY 2;
+
+```
+
+#### Solution:
+
+![Screenshot 2023-09-02 at 3 46 23 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8b296203-2c4c-47b4-b5b5-74470a340e71)
+
+
+
+#### Interpretation:
+
+
+After 2020, most of the customers either signed up for the pro monthly or pro annual plan. Unfortunately, the highest amount of the customers decided to cancel altogether.
+
+***
+
+
+
+
+### Question 4: What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
+
+
+#### Approach:
+
+
+1. To get the customer count and percentage of customers that have churned, we have
+   to create two seperate tables within a common table expression. The first 
+   table called `customer_churn_count` uses **COUNT(DISTINCT(s.customer_id))** that counts the
+   unique `customer_id` where the `plan_name` equals `churn`.
+   
+   
+   
+2.  In the second table called `customer_total_count`, we are simply
+    counting the total number of unique `customer_id`.
+
+    
+
+3. In the outer query, divide the `churn_count` from `customer_churn_count` by the 
+   `total_count` from `customer_total_count`, multiply by 100, then round to 1 decimal place.
+   Make sure to use **CAST** to change the data type of the columns to numeric.
+
+
+```sql
+
+
+WITH customer_churn_count AS (
+
+SELECT COUNT(DISTINCT(s.customer_id)) AS churn_count
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE p.plan_name = 'churn'
+
+),
+	
+
+customer_total_count AS (
+
+
+SELECT COUNT(DISTINCT(customer_id)) AS total_count
+FROM subscriptions
+
+)
+
+
+SELECT c1.churn_count,
+       ROUND(CAST(c1.churn_count AS numeric)/
+       CAST(c2.total_count AS numeric) * 100, 1) AS churn_rate
+FROM customer_churn_count AS c1,
+     customer_total_count AS c2
+
+
+```
+
+
+
+#### Solution:
+
+
+![Screenshot 2023-09-02 at 3 52 41 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7da8880f-b98e-4d42-8b97-8da3eeaa7f72)
+
+
+
+#### Interpretation:
+
+The number of customers that churned was 307, and the percentage was 30.7%.
+
+***
+
+
+
+### Question 5: How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number? 
+
+
+#### Approach:
+
+1. For this question, we have to create four seperate tables within a common
+   table expression. In the first table called `ranked_plans`, use **ROW_NUMBER()**
+   to provide a row number for each `plan_id` by `customer_id`.
+
+2. In the second table called `rank_one_two`, select everything from `ranked_plans`, but only
+   filter where the row number equals 1 or 2. At this point, the results contain the trial
+   period plan and the plan that came right after it.
+
+3. In the third table called `churn_count`, we now count the number of customers that
+   churned right after the trial period. To do this, select **CAST(COUNT(*) AS numeric)** from
+   `rank_one_two` and filter the results where the `plan_id` equals 4. 
+
+4. In the last table called `total_count`, we are simply counting the total number
+   of unique customers.
+
+5. In the outer query, divide the churn count from `churn_count` by the 
+   total number of unique customers from `total_count`, multiply by 100,
+   then round to the nearest whole number. Also, select the churn count seperately
+   from `churn_count`.
+
+
+
+```sql
+
+
+WITH ranked_plans AS (
+	
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date,
+       ROW_NUMBER() OVER (PARTITION BY s.customer_id ORDER BY s.plan_id) AS row_num
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+
+),
+
+rank_one_two AS (
+   
+SELECT *
+FROM ranked_plans AS r
+WHERE r.row_num = 1 OR r.row_num = 2
+
+),
+
+churn_count AS (
+
+
+SELECT CAST(COUNT(*) AS numeric) AS churn_num
+FROM rank_one_two AS r
+WHERE r.plan_id = 4
+
+   
+	
+),
+
+total_count AS (
+
+SELECT CAST(COUNT(DISTINCT(customer_id)) AS numeric) AS t_count
+FROM subscriptions
+		
+)
+
+
+
+SELECT c.churn_num,
+       ROUND((c.churn_num/t.t_count) * 100, 0) AS churn_rate
+FROM churn_count AS c,
+     total_count AS t
+
+
+```
+
+#### Solution:
+
+
+![Screenshot 2023-09-02 at 4 05 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8db2bc44-d327-4a2c-9646-0755d328cbf9)
+
+
+
+#### Interpretation:
+
+92 or 9% of the customers churned right after the trial period.
+
+***
+
+
+
+### Question 6: What is the number and percentage of customer plans after their initial free trial?
+
+
+#### Approach:
+
+
+1. Start by creating three seperate tables within a common
+   table expression. In the first table called 'rankings', use RANK()
+   to provide the rank of each 'plan_id' by 'customer_id'.
+
+2. In the second table called 'num_plans', select the 'plan_id, the 'plan_name'
+   and CAST(COUNT(*) AS numeric) from 'ranked_plans', but only
+   filter where the plan rank equals 2. GROUP BY the 'plan_id' followed
+   by the 'plan_name' for the intended results.
+
+
+3. Reuse the 'total_count' table from the previous question.
+
+
+4. In the outer query, divide the number of plans from 'num_plans' by the 
+   total number of unique customers from 'total_count', multiply by 100,
+   then round to one decimal point. Furthermore, select the 'plan_id', 
+   the 'plan_name', and 'number_of_plans' from 'num_plans'.
+
+
+
+```sql
+
+
+
+```
+
+#### Solution:
+
+
+#### Interpretation:
+
+
+
+***
+
+
+### Question 7:
+
+
+#### Approach:
+
+
+
+
+```sql
+
+
+
+```
+
+#### Solution:
+
+
+#### Interpretation:
+
+
+
+***
+
+
+
+### Question 8:
+
+
+#### Approach:
+
+
+
+
+```sql
+
+
+
+```
+
+#### Solution:
+
+
+#### Interpretation:
+
+
+
+***
+
+
+
+### Question 9:
+
+
+#### Approach:
+
+
+
+
+```sql
+
+
+
+```
+
+#### Solution:
+
+
+#### Interpretation:
+
+
+
+***
+
+
+
+
+### Question 10:
+
+
+#### Approach:
+
+
+
+
+```sql
+
+
+
+```
+
+#### Solution:
+
+
+#### Interpretation:
+
+
+
+***
+
+
+
+### Question 11:
+
+
+#### Approach:
+
+
+
+
+```sql
+
+
+
+```
+
+#### Solution:
+
+
+#### Interpretation:
+
+
+
+***
