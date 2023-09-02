@@ -776,24 +776,87 @@ from the day they joined Foodie-Fi.
 
 
 
-### Question 10:
+### Question 10: Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
 
 
 #### Approach:
 
 
+1. Use the same exact CTE from the previous question but
+   now include an additional table called `buckets`. 
+   In this table, utilize **WIDTH_BUCKET()** found [here](https://www.postgresql.org/docs/15/functions-math.html)
+   that splits data into buckets based on given criteria.
+
+2. First, **JOIN** `trial_data` and `pro_annual_data`.
+   Next, place the difference between the the pro annual
+   `start_date` and the trial period `start_date` within 
+   **WIDTH_BUCKET()** then split the data into 12 buckets 
+   starting at 0 days to the 365th day.
+
+
+3. In the outer query, create a **CASE WHEN** statement that
+   does some string manipulation to rename the buckets accordingly.
+   Select the **COUNT(*)** then **GROUP BY** the created buckets to get
+   the number of customers in each bucket. 
+	   
 
 
 ```sql
 
+WITH trial_data AS (
+
+
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE s.plan_id = 0
+
+),
+
+
+pro_annual_data AS (
+
+
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE s.plan_id = 3
+
+),
+
+buckets AS (
+
+SELECT WIDTH_BUCKET(p.start_date - t.start_date, 0, 365, 12) AS breakdown
+FROM trial_data AS t
+JOIN pro_annual_data AS p
+ON t.customer_id = p.customer_id
+)
+
+
+SELECT CASE WHEN breakdown = 1 THEN CONCAT(((b.breakdown - 1) * 30 ), ' ', '-', ' ', b.breakdown * 30, ' ', 'days')
+            ELSE CONCAT(((b.breakdown - 1) * 30) + 1, ' ', '-', ' ', b.breakdown * 30, ' ', 'days')
+            END AS thirty_day_periods,
+       COUNT(*) 
+FROM buckets AS b
+GROUP BY 1
+ORDER BY 2 DESC;
 
 
 ```
 
 #### Solution:
 
+Note: I was unable to get the buckets to be properly ordered.
 
-#### Interpretation:
+![Screenshot 2023-09-02 at 5 31 54 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/34db8527-3d06-448b-80b8-0e891673674e)
 
 
 
@@ -801,25 +864,79 @@ from the day they joined Foodie-Fi.
 
 
 
-### Question 11:
+### Question 11: How many customers downgraded from a pro monthly to a basic monthly plan in 2020?
+
+
 
 
 #### Approach:
 
 
+1. Use a CTE similar to question 9, but now replace the tables for the basic
+   monthly and pro monthly plans. Make sure to filter to only the year 2020
+   within both tables.
+
+
+2. In the outer query, first **JOIN** the `basic_monthly` and the
+   `pro_monthly` tables. Next, select the **COUNT(*)**
+   to represent the number of customers that downgraded.
+   Lastly, filter the results where the difference between 
+   the pro monthly `start_date` and the basic monthly `start_date`
+   is less than 0.
+   
+
 
 
 ```sql
 
+WITH basic_monthly AS (
+	
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE (s.start_date > '2019-12-31' AND s.start_date < '2021-01-01') AND s.plan_id = 1
+ORDER BY s.customer_id, s.plan_id
+
+),
+
+pro_monthly AS (
+		
+SELECT s.customer_id,
+       s.plan_id,
+       p.plan_name,
+       s.start_date
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE (s.start_date > '2019-12-31' AND s.start_date < '2021-01-01') AND s.plan_id = 2
+ORDER BY s.customer_id, s.plan_id
+
+)
+
+
+
+SELECT COUNT(*) AS num_of_customers
+FROM basic_monthly AS b
+JOIN pro_monthly AS p
+ON b.customer_id = p.customer_id
+WHERE p.start_date - b.start_date < 0;
 
 
 ```
 
 #### Solution:
 
+![Screenshot 2023-09-02 at 5 40 54 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/fd99e80a-262b-40c7-b6bc-bc94d1274c79)
+
+
 
 #### Interpretation:
 
+It seems that none of the customers downgraded from the pro monthly plan to the basic monthly plan.
 
 
 ***
