@@ -196,21 +196,32 @@ to the pro annual plan.
 ## B. Data Analysis Questions
 
 
-### Question 1: 
+### Question 1: How many customers has Foodie-Fi ever had?
 
 
 #### Approach:
 
+1. To get the number of customers, we first have to use
+   **DISTINCT()** to remove duplicates then **COUNT()** to count the
+   unique `customer_id`.
+
 
 ```sql
 
+SELECT COUNT(DISTINCT (customer_id)) AS num_of_customers
+FROM subscriptions;
 
 ```
 
 #### Solution:
 
 
+![Screenshot 2023-09-02 at 3 07 32 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ac025f46-313e-4f8a-a8a9-8ebbe86114ff)
+
+
+
 #### Interpretation:
 
+Foodie-Fi has had 1000 customers.
 
 ***
