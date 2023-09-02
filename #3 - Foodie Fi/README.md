@@ -104,9 +104,24 @@ Try to keep it as short as possible - you may also want to run some sort of join
 
 #### Approach
 
+1. As suggested, perform an **INNER JOIN** between the `plans` and `subscriptions` tables.
+
+2. Filter the results where the `customer_id` is found in the id numbers 
+   *1, 2, 11, 13, 15, 16, 18, or 19*.
+   
+3. **ORDER BY** the `customer_id` followed by the `plan_id`.
+
+
+
 ```sql
 
 
+SELECT *
+FROM subscriptions AS s
+JOIN plans AS p
+ON s.plan_id = p.plan_id
+WHERE s.customer_id IN (1, 2, 11, 13, 15, 16, 18, 19)
+ORDER BY s.customer_id, s.plan_id;
 
 ```
 
@@ -114,10 +129,65 @@ Try to keep it as short as possible - you may also want to run some sort of join
 
 ### Customer 1: 
 
+After the 7 day trial period, **customer 1** downgraded to the basic monthly plan
+instead of automatically continuing with the pro monthly plan.
 
 
+*** 
+
+### Customer 2: 
+
+It seems that **customer 2** enjoyed the foodie fi service during the trial period. When it ended, they upgraded to the pro annual plan.
+
+***
+
+### Customer 11:
+
+Unlike **customer 2**, **customer 11** did not like the foodie fi service. They chose to cancel after the trial period.
+
+***
+
+### Customer 13: 
+
+Initially, **customer 13** downgraded to the basic monthly plan after the trial period.
+This is probably because of cost or they did not need the benefits provided by the higher
+tier plans at the time. However, a few months later, **customer 13** upgraded to a pro monthly plan.
 
 
+***
+
+### Customer 15: 
+
+
+After the trial period, **customer 15** made no plan changes so they were automically enrolled in the pro monthly plan. 
+However, after a month, they decided to terminate their plan with foodie-fi.
+
+
+***
+
+### Customer 16: 
+
+
+Upon completing the trial period on 2020-06-07, **customer 16**
+downgraded to the basic monthly plan. To probably take advantage of
+more benfits and save money, they later upgraded to the pro annual
+plan about five months later.
+
+***
+
+### Customer 18:
+
+After the trial period, **customer 18** made no plan changes. 
+They were automically enrolled in the pro monthly plan. 
+
+***
+
+### Customer 19: 
+
+
+**Customer 19** automically continued with the pro monthly plan after
+the trial period ended on 2020-06-29. Two months later, they upgraded
+to the pro annual plan.
 
 
 
