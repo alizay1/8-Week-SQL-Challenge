@@ -23,7 +23,7 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 1. [Introducing the Data](#introducing-the-data)
    - [Entity Relationship Diagram](#entity-relationship-diagram)
    - [Tables](#tables)
-   - [Business Initiatives](#business-initiatives)
+   - [Business Objectives](#business-objectives)
 3. [Case Study Questions](#case-study-questions)
    - [A. Customer Journey](#a-customer-journey)
    - [B. Data Analysis Questions](#b-data-analysis-questions)
@@ -68,7 +68,7 @@ The `subsriptions` table provides the `customer_id`, the `plan_id` listing all t
 
 ***
 
-## Business Initiatives
+## Business Objectives
 
 
 ### What does Danny want to understand from the data? 
