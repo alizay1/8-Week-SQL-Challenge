@@ -30,7 +30,7 @@ app to accept orders from customers.
 1. [Introducing the Data](#introducing-the-data)
    - [Entity Relationship Diagram](#entity-relationship-diagram)
    - [Tables](#tables)
-   - [Business Initiatives](#business-initiatives)
+   - [Business Objectives](#business-objectives)
 2. [Data Cleaning and Transformation](#data-cleaning-and-transformation)
 3. [Data Analysis Questions](#data-analysis-questions)
    - [A. Pizza Metrics](#a-pizza-metrics)
@@ -116,7 +116,7 @@ The `pizza_toppings` table provides the `topping_name` corresponding to the `top
 
 ***
 
-## Business Initiatives
+## Business Objectives
 
 
 ### What does Danny want to understand from the data? Furthermore, what does he want us to do with the data?
