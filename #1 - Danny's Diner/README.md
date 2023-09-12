@@ -68,7 +68,7 @@ The menu table provides the `product_name` and `price` associated with the `prod
 
 *** 
 
-## Business Initiatives
+## Business Objectives
 
 ### What does Danny want to understand from the data?
 
