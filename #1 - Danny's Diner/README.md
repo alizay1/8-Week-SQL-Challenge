@@ -23,7 +23,7 @@ but have no idea how to use their data to help them run the business.
 1. [Introducing the Data](#introducing-the-data)
    - [Entity Relationship Diagram](#entity-relationship-diagram)
    - [Tables](#tables)
-   - [Business Initiatives](#business-initiatives)
+   - [Business Objectives](#business-objectives)
 2. [Data Analysis Questions](#data-analysis-questions)
 3. [Bonus Questions](#bonus-questions)
 
