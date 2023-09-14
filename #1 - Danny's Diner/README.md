@@ -1,6 +1,7 @@
 # Case Study #1 - Danny's Diner
 
-<img width="665" alt="Screenshot 2023-08-31 at 12 46 39 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0f186064-c7f0-4459-ba2a-59e16a4a2e45">
+<img width="665" alt="Screenshot 2023-08-31 at 12 46 39 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d1d45b5a-c110-4729-98eb-bb3e4df3d9b2">
+
 
 
 Link to Case Study: [click me](https://8weeksqlchallenge.com/case-study-1/)
