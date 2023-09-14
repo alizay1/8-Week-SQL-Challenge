@@ -131,7 +131,7 @@ The `pizza_toppings` table provides the `topping_name` corresponding to the `top
 
 ### Why does he need these insights?
 
-1.  Wants to optimize Pizza Runner's operations.
+1.  Wants to optimize Pizza Runners' operations.
 2.  Help direct its runners more effectively.
 
 
