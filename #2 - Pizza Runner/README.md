@@ -195,7 +195,9 @@ SELECT order_id,
 
 ```
 
-![Screenshot 2023-09-01 at 2 31 31 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/46bcba0d-f96e-4a4b-a6ae-26330b1ee4f5)
+
+![Screenshot 2023-09-01 at 2 20 19 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8d1575d2-27f4-416c-bb0a-925dce6615d1)
+
 
 
 
@@ -266,7 +268,8 @@ FROM		(SELECT order_id,
 ```
 
 
-![Screenshot 2023-09-01 at 2 31 31 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/42ac5d03-93d3-4ba7-acc1-d27c0c36f0d6)
+![Screenshot 2023-09-01 at 2 31 31 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d822fd3f-b044-4ebf-9cce-963d1336f19c)
+
 
 
 
@@ -291,7 +294,7 @@ ALTER TABLE runner_orders_temp
 
 ```
 
-![Screenshot 2023-09-01 at 2 53 44 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3ad21518-f569-48ee-843a-9ec8ce00310a)
+![Screenshot 2023-09-01 at 2 53 44 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/760df9ce-bb50-4266-b710-f34482290399)
 
 
 
