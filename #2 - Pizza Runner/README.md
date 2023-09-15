@@ -1374,7 +1374,8 @@ FROM prices AS p
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 7 28 08 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/610a58e1-a19b-4ad6-934d-0df0c74e10ec)
+![Screenshot 2023-09-01 at 7 28 08 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3bd36b33-28d8-4044-8e03-1d20945ba8c1)
+
 
 
 #### Interpretation:
@@ -1424,7 +1425,9 @@ FROM prices AS p
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 7 31 26 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3569259e-646f-4a5f-b6b0-1fd4d2725463)
+
+![Screenshot 2023-09-01 at 7 31 26 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/85be00f8-d660-4c73-a9f5-df100d640087)
+
 
 
 
@@ -1467,7 +1470,8 @@ VALUES
 ```
 
 
-![Screenshot 2023-09-01 at 7 34 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f621a1b6-375d-453d-b932-fc4ca5640bdc)
+
+![Screenshot 2023-09-01 at 7 34 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/64b78757-4165-457c-982a-e758b81a8275)
 
 
 
@@ -1542,7 +1546,9 @@ ORDER BY 1;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 7 40 35 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ecc44a72-435a-4834-b17b-a8f27bb4cbc6)
+
+![Screenshot 2023-09-01 at 7 40 35 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f64a649c-153b-4272-9aa9-805cc2490c8e)
+
 
 
 
@@ -1612,7 +1618,8 @@ ON p.order_id = r.order_id
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 7 48 39 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/bf5d2884-55f3-4ee5-9812-0b5d84e3e427)
+
+![Screenshot 2023-09-01 at 7 48 39 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/743a29ec-b8d5-4e99-996c-48d478cc6a5f)
 
 
 
