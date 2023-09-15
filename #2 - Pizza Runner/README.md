@@ -406,7 +406,8 @@ GROUP BY 1;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 5 08 50 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8750c20f-2cbe-43db-9b20-1104ed658224)
+![Screenshot 2023-09-01 at 5 08 50 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0b30ae89-21a9-4b27-9c38-9a6b4deb84a3)
+
 
 
 #### Interpretation:
@@ -451,7 +452,9 @@ GROUP BY 1, 2;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 5 12 03 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/efa50629-4467-4816-8bfa-34597960e8c6)
+
+![Screenshot 2023-09-01 at 5 12 03 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7b0175f5-862f-4d03-8308-b4c4f1c7a516)
+
 
 
 
