@@ -218,7 +218,8 @@ FROM subscriptions;
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 3 07 32 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ac025f46-313e-4f8a-a8a9-8ebbe86114ff)
+![Screenshot 2023-09-02 at 3 07 32 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/06333ebf-cd09-4aa7-9a41-f411b13f0674)
+
 
 
 
@@ -260,7 +261,7 @@ ORDER BY 1;
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 3 41 53 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/de884cc5-03b1-4101-a4c2-d3925a09670f)
+![Screenshot 2023-09-02 at 3 41 53 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4cad1209-9dea-49e9-9912-008f7796d1b0)
 
 
 
@@ -302,7 +303,8 @@ ORDER BY 2;
 
 #### Solution:
 
-![Screenshot 2023-09-02 at 3 46 23 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8b296203-2c4c-47b4-b5b5-74470a340e71)
+
+![Screenshot 2023-09-02 at 3 46 23 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/6f1602a7-2801-4f99-95c7-edf1ca69b601)
 
 
 
@@ -376,7 +378,7 @@ FROM customer_churn_count AS c1,
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 3 52 41 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7da8880f-b98e-4d42-8b97-8da3eeaa7f72)
+![Screenshot 2023-09-02 at 3 52 41 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7e9d4eb4-60ba-430b-851e-05e2afc4b013)
 
 
 
@@ -470,7 +472,7 @@ FROM churn_count AS c,
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 4 05 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8db2bc44-d327-4a2c-9646-0755d328cbf9)
+![Screenshot 2023-09-02 at 4 05 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/26191c05-b610-408b-a985-e63d51b4570c)
 
 
 
@@ -559,7 +561,8 @@ ORDER BY 4 DESC;
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 4 10 46 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/77d6da9c-0910-4a6d-876e-2b1880ea6c42)
+![Screenshot 2023-09-02 at 4 10 46 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/58611a19-236e-4248-9229-b4ca9a683699)
+
 
 
 #### Interpretation:
@@ -645,7 +648,9 @@ ORDER BY 4 DESC;
 
 #### Solution:
 
-![Screenshot 2023-09-02 at 4 15 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/e0670fbe-a01a-40cb-8789-b8ccb5509e5d)
+
+![Screenshot 2023-09-02 at 4 15 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ffd01a98-a82f-4979-a798-da3a02bb39c4)
+
 
 
 #### Interpretation:
@@ -680,7 +685,7 @@ WHERE (start_date > '2019-12-31' AND start_date < '2021-01-01') AND plan_id = 3;
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 4 17 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/b506f7e0-7fc2-4e17-b5a0-9ee7164f18ff)
+![Screenshot 2023-09-02 at 4 17 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c7760aea-1f62-46d7-a018-2e4a02fd45ae)
 
 
 
@@ -764,7 +769,8 @@ ON t.customer_id = p.customer_id;
 #### Solution:
 
 
-![Screenshot 2023-09-02 at 4 19 57 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9f7fc2f2-5047-4ad6-9ae9-0277acf5594c)
+![Screenshot 2023-09-02 at 4 19 57 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/bee45f0a-56e2-484e-bcb1-f8911eb27e36)
+
 
 
 #### Interpretation:
@@ -858,7 +864,8 @@ ORDER BY 2 DESC;
 
 Note: I was unable to get the buckets to be properly ordered.
 
-![Screenshot 2023-09-02 at 5 31 54 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/34db8527-3d06-448b-80b8-0e891673674e)
+
+![Screenshot 2023-09-02 at 5 31 54 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/2bdd2308-c5fe-4111-a96f-18e4f2f151f3)
 
 
 
@@ -932,7 +939,8 @@ WHERE p.start_date - b.start_date < 0;
 
 #### Solution:
 
-![Screenshot 2023-09-02 at 5 40 54 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/fd99e80a-262b-40c7-b6bc-bc94d1274c79)
+
+![Screenshot 2023-09-02 at 5 40 54 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0b6090f8-1288-4cad-8298-b561a3f1d67f)
 
 
 
