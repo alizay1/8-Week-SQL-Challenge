@@ -495,7 +495,8 @@ ORDER BY 1;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 5 15 18 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7d2e6391-0530-4325-9d0f-a884ebc5f34d)
+
+![Screenshot 2023-09-01 at 5 15 18 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/97350535-d093-4509-a8c4-5c23d3e55b55)
 
 
 
@@ -544,7 +545,8 @@ LIMIT 1;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 5 19 48 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4a671e00-585c-4822-90a6-e49044177f3d)
+![Screenshot 2023-09-01 at 5 19 48 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1b6329d4-ae30-4b96-a151-8893a6d87e7a)
+
 
 
 #### Interpretation:
@@ -605,7 +607,9 @@ ORDER BY 1;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 5 37 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/e1d4d99f-2319-4b88-98d1-44566a52b632)
+
+![Screenshot 2023-09-01 at 5 37 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/6ec75e5b-eb0b-44f7-8484-a81c134991fc)
+
 
 
 
@@ -678,7 +682,8 @@ HAVING e.changes_made_to_pizza = 'both';
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 5 43 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/89312e1e-17cf-4286-8ee2-1de11d4e6dc9)
+![Screenshot 2023-09-01 at 5 43 49 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8c7b9c56-8e38-49d7-81a2-4edec89d64d7)
+
 
 
 #### Interpretation:
@@ -719,7 +724,8 @@ ORDER BY 1;
 
 
 
-![Screenshot 2023-09-01 at 5 53 29 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1683d24d-1857-4fbf-9106-81a765b377df)
+![Screenshot 2023-09-01 at 5 53 29 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d58e21e2-76f9-4a83-a963-3103e2f2977a)
+
 
 
 
@@ -759,7 +765,7 @@ ORDER BY 1;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 5 59 33 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/60ff127f-03de-4579-9333-c2d933e655a7)
+![Screenshot 2023-09-01 at 5 59 33 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/b601074d-42a1-4ab2-80cd-4c686d969726)
 
 
 
