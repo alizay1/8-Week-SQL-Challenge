@@ -1,7 +1,8 @@
 # Case Study #3 - Foodie-Fi
 
 
-<img width="663" alt="Screenshot 2023-09-02 at 2 41 31 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9406e6d1-0a70-43ae-8e80-d3548a7580a5">
+<img width="663" alt="Screenshot 2023-09-02 at 2 41 31 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/b6b13181-6ff7-4448-be62-aa38a128b026">
+
 
 
 
@@ -39,7 +40,8 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 
 Looking at the ERD, only two tables will be used in the case study; plans and subscriptions.
    
-<img width="649" alt="Screenshot 2023-09-02 at 2 42 14 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/29edda74-ee3e-4c38-aac3-9bc899fa066c">
+<img width="649" alt="Screenshot 2023-09-02 at 2 42 14 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c9ed7d47-7c40-4c8a-b2f2-aacccc80287a">
+
 
 
 
@@ -52,7 +54,7 @@ Looking at the ERD, only two tables will be used in the case study; plans and su
 The `plans` table contains the `plan_id`, the `plan_name`, and the `price`. There are 5 plans in total; trial, basic monthly, pro monthly, pro annual, and churn. The churn plan is when a customer chooses to cancel, but their plan will only terminate at the end of the billing period. Each potential subscriber can start with a 7 day trial period where they will continue with the pro monthly plan afterwards or they can choose a different plan altogether.
 
 
-![Screenshot 2023-09-02 at 2 45 57 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c96689a6-3909-4fd6-b32c-b88fce5c0a58)
+![Screenshot 2023-09-02 at 2 45 57 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/27f755a6-bbe9-4290-8d64-dd87f75a8820)
 
 
 
@@ -63,7 +65,7 @@ The `subsriptions` table provides the `customer_id`, the `plan_id` listing all t
 - Note: The table only displays the first 15 rows.
 
 
-![Screenshot 2023-09-02 at 2 46 38 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/dda35bfd-432b-4c60-8e8b-b03bf098cff9)
+![Screenshot 2023-09-02 at 2 46 38 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/76a00045-b6f5-4e6b-9957-094878a4b15b)
 
 
 ***
@@ -98,8 +100,8 @@ Based off the 8 sample customers provided in the `subscriptions` sample table be
 
 Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!
 
+<img width="268" alt="Screenshot 2023-09-02 at 2 52 20 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/47b1cde3-6a5e-4ec3-bf4d-afa7eb438ed6">
 
-<img width="268" alt="Screenshot 2023-09-02 at 2 52 20 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/89d16dfe-62c8-4ea3-833e-6ec50524b850">
 
 
 #### Approach
