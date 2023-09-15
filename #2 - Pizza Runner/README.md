@@ -333,7 +333,8 @@ FROM customer_orders_temp;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 4 53 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/367f852b-f9fc-4d98-870b-25f39e05df0e)
+![Screenshot 2023-09-01 at 4 53 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8ffca9aa-004f-4dc5-b40d-198f6008920a)
+
 
 
 #### Interpretation:
@@ -363,7 +364,8 @@ FROM customer_orders_temp;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 4 56 15 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5b045b47-9988-473e-a916-404e26316378)
+
+![Screenshot 2023-09-01 at 4 56 15 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/89a1d1d1-f086-4faa-a715-f423680151f9)
 
 
 
