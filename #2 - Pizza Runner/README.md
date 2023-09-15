@@ -1015,7 +1015,8 @@ WHERE cancellation = 'No Cancellation'
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 21 53 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/166f2ec2-afc0-480c-9044-70bc4115097f)
+![Screenshot 2023-09-01 at 6 21 53 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/873344b5-1ced-49a1-90c0-4a89cb226e0c)
+
 
 
 #### Interpretation:
@@ -1064,7 +1065,7 @@ ORDER BY 2, 3
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 28 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5c9e9230-fe64-4c3c-ad3d-9eae0cc425ce)
+![Screenshot 2023-09-01 at 6 28 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4a1119fc-db05-4828-8eee-9e6083c539df)
 
 
 
@@ -1123,7 +1124,7 @@ ORDER BY 2 DESC;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 34 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d9d55b22-47e1-4145-b2b0-f5af33fcc3ed)
+![Screenshot 2023-09-01 at 6 34 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/092a1624-ab7f-4b4c-ae74-80b802068d3a)
 
 
 #### Interpretation:
