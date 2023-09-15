@@ -120,8 +120,7 @@ ORDER BY 2 DESC;
 
 #### Solution:
 
-![Screenshot 2023-08-31 at 4 30 23 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/42ed8273-b5ba-40d5-843f-9a8a21a8e5e4)
-
+![Screenshot 2023-08-31 at 4 30 23 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7fdcf0c4-74ba-4214-8f84-f3de485eebb9)
 
 
 #### Interpretation:
@@ -160,8 +159,7 @@ ORDER BY 2 DESC;
 #### Solution:
 
 
-
-![Screenshot 2023-08-31 at 4 46 17 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5baa8150-f4ed-4a80-a48c-9b9d70b59e4c)
+![Screenshot 2023-08-31 at 4 46 17 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/3fdd603d-9405-43f4-9df2-861720ba7374)
 
 
 #### Interpretation:
@@ -213,7 +211,9 @@ WHERE t1.order_date_rank = 1;
 
 #### Solution:
 
-![Screenshot 2023-08-31 at 5 03 00 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8d64b50b-b3cd-4a79-a25e-f520e559ceb3)
+
+![Screenshot 2023-08-31 at 5 03 00 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1358c3e3-f938-40f6-925a-3963354d6c96)
+
 
 
 #### Interpretation:
@@ -283,7 +283,8 @@ ORDER BY 3 DESC;
 
 #### Solution:
 
-![Screenshot 2023-08-31 at 5 14 07 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a0689704-d10c-437a-ba05-3ff2d9af3c46)
+![Screenshot 2023-08-31 at 5 14 07 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0925c13e-6b28-4c32-80dc-5d097217a475)
+
 
 
 #### Interpretation:
@@ -350,7 +351,9 @@ WHERE t2.order_total_rank = 1;
 
 #### Solution:
 
-![Screenshot 2023-08-31 at 5 21 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f8da1f3e-ae3c-43d3-8890-08370fe23492)
+
+![Screenshot 2023-08-31 at 5 21 10 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0bc234f9-bc93-4b9e-a09a-4581ffa864fa)
+
 
 
 #### Interpretation:
@@ -424,7 +427,8 @@ WHERE p.order_date_rank = 1;
 
 #### Solution:
 
-![Screenshot 2023-08-31 at 6 44 25 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/289297a5-3983-4d87-9e22-53db44a8c3ad)
+
+![Screenshot 2023-08-31 at 6 44 25 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1fbe6ad4-a164-47dd-afc2-fc3a35dd82f2)
 
 
 
@@ -497,7 +501,8 @@ WHERE p.order_date_rank = 1;
 ```
 #### Solution:
 
-![Screenshot 2023-08-31 at 6 51 52 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a0ac5237-0977-4a28-a781-922d5468b649)
+![Screenshot 2023-08-31 at 6 51 52 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/21c1b3a3-b9fa-458f-9d15-bbd4890fc8d8)
+
 
 
 #### Interpretation:
