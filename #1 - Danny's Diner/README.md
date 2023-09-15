@@ -52,21 +52,23 @@ Looking at the ERD, three tables will be used in the case study; sales, menu, an
 The sales table consists of each `customer_id` purchases along with the `order_date`
 of the purchase and the 'product_id' of the menu item that was ordered.
 
-![Screenshot 2023-08-31 at 4 11 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/7f468eb1-6800-49dc-bfb7-bac348483b38)
+![Screenshot 2023-08-31 at 4 11 51 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/6896cc12-e07c-4fad-b457-c162ec5fd7f4)
+
 
 ### Table 2: members
 
 The members table provides the `customer_id` and the `join_date` of when
 they joined the Danny's Dinner loyalty program. 
 
-![Screenshot 2023-08-31 at 4 15 09 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/20965ee2-302d-45b3-af9e-bbdadb01a550)
+![Screenshot 2023-08-31 at 4 15 09 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/262744ba-6aee-4f26-929b-526061b11a53)
 
 
 ### Table 3: menu
 
 The menu table provides the `product_name` and `price` associated with the `product_id`.
 
-![Screenshot 2023-08-31 at 4 17 35 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5fc05c8b-df50-4a69-8e5c-6e24ee216d44)
+
+![Screenshot 2023-08-31 at 4 17 35 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a1089658-b743-43b6-b011-db93a67dfb49)
 
 
 *** 
