@@ -557,7 +557,8 @@ ORDER BY 1;
 
 #### Solution:
 
-![Screenshot 2023-08-31 at 7 21 18 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5690b5aa-a417-4ace-aab5-062cc5003f40)
+![Screenshot 2023-08-31 at 7 21 18 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/e417af7b-5e9a-46f0-90de-46020a60e068)
+
 
 
 #### Interpretation:
@@ -614,7 +615,8 @@ ORDER BY 2 DESC;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 10 55 17 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/65920797-988d-44c4-a9cf-d85460021667)
+![Screenshot 2023-09-01 at 10 55 17 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4364f208-85cf-49de-9b05-c7cca9ca49c8)
+
 
 
 #### Interpretation:
@@ -710,7 +712,7 @@ ORDER BY 1
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 11 07 34 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/922f96e7-4b01-44f4-9387-dc511081e797)
+![Screenshot 2023-09-01 at 11 07 34 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/73e2b053-dc20-4be3-8020-5471d5844969)
 
 
 
@@ -727,7 +729,8 @@ Customer A had 1370 points while customer B had 940 points.
 
 ### Bonus 1: Recreate the following table that includes the `customer_id`, `order_date`, `product_name`, menu item `price`, and a new column called `member`  where the entries are either Y or N.
 
-<img width="583" alt="Screenshot 2023-09-01 at 11 08 24 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/95de9a72-230a-4aa2-a3fe-3a081d4bde08">
+<img width="583" alt="Screenshot 2023-09-01 at 11 08 24 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4ddd2ec4-7c39-407e-86bc-4547300540a1">
+
 
 
 #### Approach:
@@ -768,7 +771,7 @@ ORDER BY 1, 2
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 11 13 46 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9d5e3c96-0325-4117-9841-2bc8fd9d5aea)
+![Screenshot 2023-09-01 at 11 13 46 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/54e5115c-8291-4fd4-8e9f-08b4fa3e2a2d)
 
 
 
@@ -776,8 +779,7 @@ ORDER BY 1, 2
 
 ### Bonus 2: Recreate the following table that includes everything from the previous table and the ranking of member only purchases. Non-members should receive null ranking values.
 
-<img width="677" alt="Screenshot 2023-09-01 at 11 15 06 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1474c2db-14bf-49fc-9967-1a270ee8fe7a">
-
+<img width="677" alt="Screenshot 2023-09-01 at 11 15 06 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c99229e7-4a97-4690-8c0e-256db90961e0">
 
 
 #### Approach:
@@ -833,7 +835,7 @@ FROM initial_query AS i;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 11 20 42 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c2328b6e-c6bc-4329-8c0c-cdc02b20cd0b)
+![Screenshot 2023-09-01 at 11 20 42 AM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a91f5b35-2697-4749-9f04-6bd92ec4921e)
 
 
 
