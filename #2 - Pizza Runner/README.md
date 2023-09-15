@@ -803,7 +803,8 @@ ORDER BY 1;
 
 
 
-![Screenshot 2023-09-01 at 6 02 06 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9e0c40bf-1958-4a66-8253-d3b7c69f91ff)
+![Screenshot 2023-09-01 at 6 02 06 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/c7e738c5-7efd-4409-a315-f1e2dbfa9eef)
+
 
 
 
@@ -831,7 +832,7 @@ ORDER BY 1;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 03 39 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/a99a823b-03b6-4d35-b884-13d7d3ae0f5a)
+![Screenshot 2023-09-01 at 6 03 39 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/e24d4987-cad5-4f56-8f25-05c3807ad851)
 
 
 
@@ -880,7 +881,7 @@ ORDER BY 2 DESC;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 09 22 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/aece9bf1-9d99-4a15-92ac-15c6ce845a8e)
+![Screenshot 2023-09-01 at 6 09 22 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4a0859a6-2ede-4936-bc79-944780bd9d28)
 
 
 
@@ -927,7 +928,7 @@ ORDER BY 2;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 13 36 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/985883fe-fc83-4ead-8489-c01d68676eb0)
+![Screenshot 2023-09-01 at 6 13 36 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/86b2e0df-f7e2-45a1-935c-39aed2e995b9)
 
 
 
@@ -970,7 +971,7 @@ ORDER BY 2 DESC;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 18 45 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/fbe6628d-c4d7-410b-9a39-684fb2ee4622)
+![Screenshot 2023-09-01 at 6 18 45 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/23e8adea-72b9-4f37-beaa-f1c9c81578b3)
 
 
 
