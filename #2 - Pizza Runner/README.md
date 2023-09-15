@@ -1197,8 +1197,7 @@ ORDER BY 1, 3;
 #### Solution:
 
 
-
-![Screenshot 2023-09-01 at 6 50 11 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/86156515-753b-42ae-9a72-1e271707b940)
+![Screenshot 2023-09-01 at 6 50 11 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/bf7c2e34-1faa-4ed3-b512-d8163492c217)
 
 
 
@@ -1262,7 +1261,7 @@ LIMIT 1;
 #### Solution:
 
 
-![Screenshot 2023-09-01 at 6 52 52 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/0cad7830-7790-4502-aa56-5ce05978fb5e)
+![Screenshot 2023-09-01 at 6 52 52 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4971fb40-9ac5-4046-963d-078bd0669839)
 
 
 
@@ -1315,7 +1314,9 @@ LIMIT 1;
 
 #### Solution:
 
-![Screenshot 2023-09-01 at 6 58 41 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9febe7ae-3996-479e-8fa2-3489dd538d64)
+
+![Screenshot 2023-09-01 at 6 58 41 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/149a5db7-5e3d-4dcd-9680-8d26026e1eb7)
+
 
 
 #### Interpretation:
