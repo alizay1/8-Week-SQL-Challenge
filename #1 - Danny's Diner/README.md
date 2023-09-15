@@ -39,7 +39,9 @@ but have no idea how to use their data to help them run the business.
 
 Looking at the ERD, three tables will be used in the case study; sales, menu, and members.
 
-<img width="555" alt="Screenshot 2023-08-16 at 1 46 12 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f42f0c6d-a307-4b6c-bfcb-76bfa828afbf">
+
+<img width="555" alt="Screenshot 2023-08-16 at 1 46 12 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/fea0c2ad-dfdb-432c-a0b7-3932de06f95f">
+
 
 
 ## Tables
