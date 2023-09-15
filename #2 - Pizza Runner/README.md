@@ -1,6 +1,7 @@
 # Case Study #2 - Pizza Runner
 
-<img width="683" alt="Screenshot 2023-09-01 at 11 26 41 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ba41c066-fcd0-4406-bc93-e686d6eee6d8">
+<img width="683" alt="Screenshot 2023-09-01 at 11 26 41 AM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/5d4f304e-8d0d-407e-a454-219340219550">
+
 
 Link to Case Study: [click me](https://8weeksqlchallenge.com/case-study-2/)
 
@@ -44,10 +45,9 @@ app to accept orders from customers.
 
 ## Entity Relationship Diagram
 
-Looking at the ERD, six tables will be used in the case study; `runners`, `customer_orders`, `runner_orders`, `pizza_names`, `pizza_recipes`, and 
-`pizza_toppings`.
+Looking at the ERD, six tables will be used in the case study; `runners`, `customer_orders`, `runner_orders`, `pizza_names`, `pizza_recipes`, and `pizza_toppings`.
 
-<img width="593" alt="Screenshot 2023-09-01 at 1 38 28 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/ad160f59-5784-468a-9b0c-ab4f818eeb13">
+<img width="593" alt="Screenshot 2023-09-01 at 1 38 28 PM" src="https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/4092152b-7338-4e2b-afc9-91f8fc620efe">
 
 
 ## Tables
