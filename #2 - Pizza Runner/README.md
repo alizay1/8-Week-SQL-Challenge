@@ -57,7 +57,7 @@ Looking at the ERD, six tables will be used in the case study; `runners`, `custo
 
 The `runners` table provides the `registration_date` for each new runner.
 
-![Screenshot 2023-09-01 at 1 52 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/05998e1e-2cd4-41db-8d65-d3c3d91c4b8c)
+![Screenshot 2023-09-01 at 1 52 34 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/1c3afb13-c6a6-4309-b1fe-9707c286d6d5)
 
 
 
@@ -70,7 +70,8 @@ the ingredient `extras` id, and the `order_time` with a timestamp.
 You will notice problems with the data in the `exclusions` and `extras`
 columns. This will be addressed before starting the analysis.
 
-![Screenshot 2023-09-01 at 1 53 58 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d600c373-afe0-4abf-9433-75e21ed4e5cd)
+
+![Screenshot 2023-09-01 at 1 53 58 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/035fad31-e92c-4d9b-8a2f-10e268bec64f)
 
 
 
@@ -86,7 +87,8 @@ and blank spaces in most of the columns. In addition,
 the `duration` and `distance` columns need to be edited in accordance to their
 perceived data type. This will also be addressed before starting the analysis.
 
-![Screenshot 2023-09-01 at 1 55 47 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/6c5211ff-72c1-4afa-97ac-b1f13978a146)
+![Screenshot 2023-09-01 at 1 55 47 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/8bd46711-1366-41ac-9872-20c2f86941d8)
+
 
 
 
@@ -94,7 +96,8 @@ perceived data type. This will also be addressed before starting the analysis.
 
 The 'pizza_names' table provides the corresponding `pizza_name` to the `pizza_id`.
 
-![Screenshot 2023-09-01 at 2 01 12 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/d8421307-47c7-4157-b662-d5ffc3ad2285)
+
+![Screenshot 2023-09-01 at 2 01 12 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/f5d3c764-11cc-40fa-b199-04bd5107754d)
 
 
 
@@ -102,7 +105,9 @@ The 'pizza_names' table provides the corresponding `pizza_name` to the `pizza_id
 
 The `pizza_recipes` table lists out all the appropriate `toppings` (in id format) according to the `pizza_id`.
 
-![Screenshot 2023-09-01 at 2 02 03 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/fc974d34-51a9-4ea0-8aa9-8940dd6746f8)
+
+![Screenshot 2023-09-01 at 2 02 03 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/76929fca-2612-4034-95b3-767f88382d0b)
+
 
 
 
@@ -111,7 +116,7 @@ The `pizza_recipes` table lists out all the appropriate `toppings` (in id format
 The `pizza_toppings` table provides the `topping_name` corresponding to the `topping_id` from the `pizza_names` table.
 
 
-![Screenshot 2023-09-01 at 2 03 07 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/69556d8e-c4fe-4d67-b4d6-342e9aed1e1f)
+![Screenshot 2023-09-01 at 2 03 07 PM](https://github.com/alizay1/8-Week-SQL-Challenge/assets/101383537/9ac28bbd-381a-4597-9bba-601574061c10)
 
 
 ***
